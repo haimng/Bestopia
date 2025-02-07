@@ -10,11 +10,13 @@
 .title {
   font-size: 4rem;
   text-align: center;
+  color: #403D1A; /* Updated text color */
 }
 
 .description {
   text-align: center;
   font-size: 1.5rem;
+  color: #8C6746; /* Updated text color */
 }
 
 .grid {
@@ -28,14 +30,15 @@
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
-  border: 1px solid #eaeaea;
+  border: 1px solid #BFAE99; /* Updated border color */
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
+  background-color: #D9B88F; /* Updated background color */
 }
 
 .card:hover {
-  color: #0070f3;
-  border-color: #0070f3;
+  color: #593825; /* Updated hover text color */
+  border-color: #593825; /* Updated hover border color */
 }
 
 .logo {
@@ -43,9 +46,9 @@
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #D9B88F; /* Updated background color */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
