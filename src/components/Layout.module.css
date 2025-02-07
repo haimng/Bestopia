@@ -1,0 +1,33 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: #000000; /* Black text */
+    background-color: #FFFFFF; /* White background */
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f5f5f5;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+.layout h1, .layout h2, .layout h3, .layout h4, .layout h5, .layout h6 {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    margin: 1em 0 0.5em;
+    line-height: 1.2;
+}
+

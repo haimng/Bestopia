@@ -1,0 +1,25 @@
+.navbar {
+    background-color: #333;
+    padding: 1rem;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.navbar li {
+    color: white;
+}
+
+.navbar a {
+    color: white;
+}
+
+.navbar .logo {
+    margin-right: auto;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
