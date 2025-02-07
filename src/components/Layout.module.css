@@ -4,31 +4,31 @@
     min-height: 100vh;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    color: #403D1A; /* Updated text color */
-    background-color: #D9B88F; /* Updated background color */
+    color: #402924; /* Updated text color */
+    background-color: #F2E2CE; /* Updated background color */
     line-height: 1.5;
     margin: 0;
-    padding: 0;
+    padding: 0;    
 }
 
 .header {
-    background-color: #8C6746; /* Updated background color */
+    background-color: #733C30; /* Updated background color */
     color: white;
     padding: 1rem;
-    text-align: center;
+    text-align: center;    
 }
 
 .main {
     flex: 1;
     padding: 2rem;
-    background-color: #BFAE99; /* Updated background color */
+    background-color: #D9C8B4; /* Updated background color */    
 }
 
 .footer {
-    background-color: #8C6746; /* Updated background color */
+    background-color: #733C30; /* Updated background color */
     color: white;
     text-align: center;
-    padding: 1rem;
+    padding: 1rem;    
 }
 
 .layout h1, .layout h2, .layout h3, .layout h4, .layout h5, .layout h6 {

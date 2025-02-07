@@ -10,13 +10,13 @@
 .title {
   font-size: 4rem;
   text-align: center;
-  color: #403D1A; /* Updated text color */
+  color: #402924; /* Updated text color */
 }
 
 .description {
   text-align: center;
   font-size: 1.5rem;
-  color: #8C6746; /* Updated text color */
+  color: #733C30; /* Updated text color */
 }
 
 .grid {
@@ -30,15 +30,15 @@
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
-  border: 1px solid #BFAE99; /* Updated border color */
+  border: 1px solid #A68160; /* Updated border color */
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  background-color: #D9B88F; /* Updated background color */
+  background-color: #F2E2CE; /* Updated background color */
 }
 
 .card:hover {
-  color: #593825; /* Updated hover text color */
-  border-color: #593825; /* Updated hover border color */
+  color: #733C30; /* Updated hover text color */
+  border-color: #733C30; /* Updated hover border color */
 }
 
 .logo {
@@ -46,9 +46,9 @@
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1024px; /* Set maximum width */
   margin: 0 auto;
   padding: 2rem;
-  background-color: #D9B88F; /* Updated background color */
+  background-color: #F2E2CE; /* Updated background color */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

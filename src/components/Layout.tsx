@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 {children}
             </main>
             <footer className={styles.footer}>
-                <p>&copy; 2023 Bestopia. All rights reserved.</p>
+                <p>&copy; 2025 Bestopia. All rights reserved.</p>
             </footer>
         </div>
     );
