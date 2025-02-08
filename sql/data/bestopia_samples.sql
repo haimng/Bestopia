@@ -1,25 +1,25 @@
-INSERT INTO `users` (`username`, `email`, `password`, `display_name`) VALUES
+INSERT INTO users (username, email, password, display_name) VALUES
 ('john_doe', 'john@example.com', 'password123', 'John Doe'),
 ('jane_smith', 'jane@example.com', 'password123', 'Jane Smith'),
 ('alice_jones', 'alice@example.com', 'password123', 'Alice Jones'),
 ('bob_brown', 'bob@example.com', 'password123', 'Bob Brown'),
 ('charlie_black', 'charlie@example.com', 'password123', 'Charlie Black');
 
-INSERT INTO `reviews` (`title`, `subtitle`, `introduction`) VALUES
+INSERT INTO reviews (title, subtitle, introduction) VALUES
 ('Top Smartphones of 2025', 'The best smartphones you can buy right now.', 'Looking for a new smartphone? We have tested and reviewed the latest models from Apple, Samsung, Google, and more. Whether you need the best camera, the longest battery life, or the most powerful processor, we have got you covered. Check out our top picks for the best smartphones of 2025.'),
 ('Best Laptops for Work and Play', 'Our favorite laptops for productivity and entertainment.', 'In the market for a new laptop? We have reviewed the latest models from Dell, HP, Apple, and more. Whether you need a powerful machine for work or a sleek device for entertainment, we have got you covered. Here are our top picks for the best laptops for work and play.'),
 ('Top Fitness Trackers', 'The best fitness trackers to help you stay in shape.', 'Want to stay fit and healthy? A fitness tracker can help you monitor your activity, sleep, and heart rate. We have tested the latest models from Fitbit, Garmin, and more. Check out our top picks for the best fitness trackers to help you stay in shape.'),
 ('Best Smart Home Devices', 'Our favorite smart home devices to make your life easier.', 'Looking to upgrade your home with smart devices? We have reviewed the latest smart home products from Amazon, Google, and more. Whether you need a smart speaker, a smart thermostat, or a smart security system, we have got you covered. Here are our top picks for the best smart home devices.'),
 ('Top Gaming Consoles', 'The best gaming consoles for every type of gamer.', 'Ready to level up your gaming experience? We have reviewed the latest gaming consoles from Sony, Microsoft, and Nintendo. Whether you are a casual gamer or a hardcore enthusiast, we have got you covered. Check out our top picks for the best gaming consoles for every type of gamer.');
 
-INSERT INTO `products` (`review_id`, `name`, `description`, `image_url`) VALUES
-(1, 'TV Model 1', REPEAT('A high-quality OLED TV with stunning picture quality. ', 20), 'https://example.com/tv1.jpg'),
-(1, 'TV Model 2', REPEAT('A budget-friendly LED TV with great features. ', 20), 'https://example.com/tv2.jpg'),
-(1, 'TV Model 3', REPEAT('A mid-range QLED TV with excellent color accuracy. ', 20), 'https://example.com/tv3.jpg'),
-(1, 'TV Model 4', REPEAT('A premium 4K TV with advanced smart features. ', 20), 'https://example.com/tv4.jpg'),
-(1, 'TV Model 5', REPEAT('An affordable HD TV perfect for small rooms. ', 20), 'https://example.com/tv5.jpg');
+INSERT INTO products (review_id, name, description, image_url) VALUES
+(1, 'TV Model 1', repeat('A high-quality OLED TV with stunning picture quality. ', 20), 'https://example.com/tv1.jpg'),
+(1, 'TV Model 2', repeat('A budget-friendly LED TV with great features. ', 20), 'https://example.com/tv2.jpg'),
+(1, 'TV Model 3', repeat('A mid-range QLED TV with excellent color accuracy. ', 20), 'https://example.com/tv3.jpg'),
+(1, 'TV Model 4', repeat('A premium 4K TV with advanced smart features. ', 20), 'https://example.com/tv4.jpg'),
+(1, 'TV Model 5', repeat('An affordable HD TV perfect for small rooms. ', 20), 'https://example.com/tv5.jpg');
 
-INSERT INTO `product_reviews` (`product_id`, `user_id`, `rating`, `review_text`) VALUES
+INSERT INTO product_reviews (product_id, user_id, rating, review_text) VALUES
 (1, 1, 5, 'I love this TV! The picture quality is amazing, and the sound is great too.'),
 (2, 2, 4, 'A solid TV for the price. The picture is clear, and the colors are vibrant.'),
 (3, 3, 3, 'Decent TV with good color accuracy. The sound could be better, though.'),
