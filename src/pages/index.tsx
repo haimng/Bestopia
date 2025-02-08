@@ -4,6 +4,7 @@ import styles from '../styles/Home.module.css';
 import { GetServerSideProps } from 'next';
 import { Review } from '../types';
 import { getTopReviews } from '../utils/db';
+import Link from 'next/link';
 
 type HomeProps = {
   reviews: Review[];
@@ -14,12 +15,17 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
     <Layout>
       <div className={styles.container}>
         <header className={styles.header}>
-          <h1 className={styles.title}>Bestopia</h1>
+          <div className={styles.titleGroup} style={{ textAlign: 'left' }}>
+            <h1 className={styles.title}>Bestopia</h1>
+            <h2 className={styles.subtitle}>A utopia of the best products.</h2>
+          </div>
           <nav className={styles.nav}>
             {reviews && reviews.map((review, index) => (
-              <a key={index} href={`#review${index + 1}`} className={styles.navItem}>
-                {review.title}
-              </a>
+              <Link key={index} href={`/reviews/${review.id}`} legacyBehavior>
+                <a className={`${styles.navItem} ${styles.link}`}>
+                  {review.title}
+                </a>
+              </Link>
             ))}
           </nav>
         </header>
@@ -31,7 +37,16 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
           <section className={styles.reviews}>
             {reviews && reviews.map((review, index) => (
               <div key={index} className={styles.review} id={`review${index + 1}`}>
-                <h3>{review.title}</h3>
+                <Link href={`/reviews/${review.id}`} legacyBehavior>
+                  <a className={styles.link}>
+                    <img src={review.cover_photo} alt={review.title} className={styles.coverPhoto} />
+                  </a>
+                </Link>
+                <Link href={`/reviews/${review.id}`} legacyBehavior>
+                  <a className={`${styles.reviewTitleLink} ${styles.link}`}>
+                    <h3>{review.title}</h3>
+                  </a>
+                </Link>
                 <h4>{review.subtitle}</h4>
                 <p>{review.introduction}</p>
               </div>

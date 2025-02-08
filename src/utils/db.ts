@@ -48,8 +48,12 @@ export const getProductReviewsByProductId = async (productId: number) => {
 };
 
 export const getTopReviews = async (): Promise<Review[]> => {
-  const res = await connection.query('SELECT title, subtitle, introduction FROM reviews ORDER BY id DESC LIMIT 10');
-  return res.rows as Review[];
+  const res = await connection.query('SELECT * FROM reviews ORDER BY id DESC LIMIT 10');
+  return res.rows.map(review => ({
+    ...review,
+    created_at: review.created_at.toISOString(), // Convert Date to string
+    updated_at: review.updated_at.toISOString(), // Convert Date to string
+  })) as Review[];
 };
 
 export default connection;
