@@ -24,7 +24,7 @@ export const getReviewById = async (id: number) => {
 };
 
 export const getProductsByReviewId = async (reviewId: number): Promise<Product[]> => {
-  const query = 'SELECT * FROM products WHERE review_id = $1';
+  const query = 'SELECT * FROM products WHERE review_id = $1 ORDER BY id ASC';
   const res = await connection.query(query, [reviewId]);
   return res.rows as Product[];
 };
@@ -35,6 +35,7 @@ export const getProductReviewsByProductId = async (productId: number) => {
         FROM product_reviews pr
         JOIN users u ON pr.user_id = u.id
         WHERE pr.product_id = $1
+        ORDER BY pr.id ASC
     `;
     const res = await connection.query(query, [productId]);
     return res.rows;
