@@ -10,6 +10,12 @@ interface Product {
 
 dotenv.config();
 
+interface Review {
+    id: number;
+    title: string;    
+    // Add other fields as necessary
+}
+
 const connection = new Pool({
     host: process.env.PG_HOST,
     user: process.env.PG_USER,
@@ -39,6 +45,11 @@ export const getProductReviewsByProductId = async (productId: number) => {
     `;
     const res = await connection.query(query, [productId]);
     return res.rows;
+};
+
+export const getTopReviews = async (): Promise<Review[]> => {
+  const res = await connection.query('SELECT title, subtitle, introduction FROM reviews ORDER BY id DESC LIMIT 10');
+  return res.rows as Review[];
 };
 
 export default connection;
