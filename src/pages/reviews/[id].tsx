@@ -31,6 +31,7 @@ interface Review {
     introduction: string;
     created_at: string;
     updated_at: string;
+    cover_photo: string;
 }
 
 interface ReviewPageProps {
@@ -44,6 +45,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
             <div className={styles.container}>
                 <h1 className={styles.title}>{review.title}</h1>
                 <h2 className={styles.subtitle}>{review.subtitle}</h2>
+                <img src={review.cover_photo} alt="Cover Photo" className={`${styles.coverPhoto} ${styles.responsiveImage}`} />
                 <p className={styles.introduction}>{review.introduction}</p>
                 <div className={styles.reviewList}>
                     {products.map((product) => (

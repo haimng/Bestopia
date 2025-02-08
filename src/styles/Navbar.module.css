@@ -37,4 +37,5 @@
 
 .navbar .logo img {
     height: 96px; /* Fix logo height */
+    border-radius: 5px;
 }

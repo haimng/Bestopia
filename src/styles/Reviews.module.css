@@ -20,7 +20,7 @@
 }
 
 .subtitle {
-    font-size: 1.75rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #595959; /* Brighter text color */
     margin-bottom: 1rem;
@@ -29,7 +29,7 @@
 .introduction {
     font-size: 1.2em;
     color: #595959; /* Brighter text color */
-    margin-bottom: 20px;
+    margin-bottom: 40px; /* Increase space under the introduction */
 }
 
 .reviewList {
@@ -105,4 +105,16 @@
 
 .reviewItem p {
     margin: 0;
+}
+
+.responsiveImage {
+    width: 100%;
+    height: auto;
+}
+
+.coverPhoto {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px; /* Add curved border */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
 }
