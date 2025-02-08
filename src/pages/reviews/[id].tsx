@@ -2,7 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Reviews.module.css';
-import { getReviewById, getProductsByReviewId } from '../../utils/db';
+import { getReviewById, getProductsByReviewId, getProductReviewsByProductId } from '../../utils/db';
 
 interface Product {
     id: number;
@@ -11,6 +11,17 @@ interface Product {
     image_url: string;
     created_at: string;
     updated_at: string;
+    reviews: ProductReview[];
+}
+
+interface ProductReview {
+    id: number;
+    user_id: number;
+    rating: number;
+    review_text: string;
+    created_at: string;
+    updated_at: string;
+    display_name: string;
 }
 
 interface Review {
@@ -40,6 +51,14 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                             <img src={product.image_url} alt={product.name} className={styles.reviewImage} />
                             <h2 className={styles.reviewTitle}>{product.name}</h2>
                             <p className={styles.reviewContent}>{product.description}</p>
+                            <div className={styles.productReviews}>
+                                {product.reviews.map((review) => (
+                                    <div key={review.id} className={styles.productReview}>
+                                        <p><strong>Rating:</strong> {review.rating}</p>
+                                        <p>{review.review_text} — <span className={styles.displayName}><i>{review.display_name}</i></span></p>
+                                    </div>
+                                ))}
+                            </div>
                             <button className={styles.buyButton}>Buy Now</button>
                         </div>
                     ))}
@@ -60,10 +79,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         updated_at: review.updated_at.toISOString(),
     };
 
-    const serializedProducts = products.map((product: any) => ({
-        ...product,
-        created_at: product.created_at.toISOString(),
-        updated_at: product.updated_at.toISOString(),
+    const serializedProducts = await Promise.all(products.map(async (product: any) => {
+        const reviews = await getProductReviewsByProductId(product.id) || [];
+        return {
+            ...product,
+            created_at: product.created_at.toISOString(),
+            updated_at: product.updated_at.toISOString(),
+            reviews: Array.isArray(reviews) ? reviews.map((review: any) => ({
+                ...review,
+                created_at: review.created_at.toISOString(),
+                updated_at: review.updated_at.toISOString(),
+                display_name: review.display_name,
+            })): [],
+        };
     }));
 
     return {

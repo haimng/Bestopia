@@ -61,6 +61,20 @@
 .reviewContent {
     font-size: 1em;
     color: #595959; /* Brighter text color */
+    margin-bottom: 20px; /* Add space between product description and reviews */
+}
+
+.productReviews {
+    margin-top: 10px;
+}
+
+.productReview {
+    margin-bottom: 10px;
+}
+
+.displayName {
+    font-style: italic; /* Set display name to italic */
+    font-weight: normal; /* Set display name to regular (not bold) */
 }
 
 .buyButton {
