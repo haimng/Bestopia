@@ -1,12 +1,18 @@
 .navbar {
-    background-color: #733C30; /* Updated background color */
-    padding: 1rem;
+    background-color: #3F1D14; /* Brighter background color */
+    padding: 0.25rem; /* Further reduced padding */
+    display: flex;
+    flex-direction: column; /* Stack logo and links vertically */
+    align-items: center;
 }
 
 .navbar ul {
     list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 2rem; /* Further increased gap to keep more distance */
+    margin-top: 0.5rem; /* Add margin to separate from logo */
+    justify-content: center; /* Center the nav links */
+    width: 100%; /* Ensure the nav links take full width */
 }
 
 .navbar li {
@@ -18,8 +24,11 @@
 }
 
 .navbar .logo {
-    margin-right: auto;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1rem; /* Further reduced font size */
     font-weight: bold;
+}
+
+.navbar .logo img {
+    height: 70px; /* Fix logo height */
 }

@@ -4,15 +4,15 @@
     min-height: 100vh;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
-    color: #402924; /* Updated text color */
-    background-color: #F2E2CE; /* Updated background color */
+    color: #404040; /* Brighter text color */
+    background-color: #FFFFFF; /* Brighter background color */
     line-height: 1.5;
     margin: 0;
     padding: 0;    
 }
 
 .header {
-    background-color: #733C30; /* Updated background color */
+    background-color: #595959; /* Brighter background color */
     color: white;
     padding: 1rem;
     text-align: center;    
@@ -20,12 +20,12 @@
 
 .main {
     flex: 1;
-    padding: 2rem;
-    background-color: #D9C8B4; /* Updated background color */    
+    padding: 1rem;
+    background-color: #FFFFFF; /* Brighter background color */    
 }
 
 .footer {
-    background-color: #733C30; /* Updated background color */
+    background-color: #595959; /* Brighter background color */
     color: white;
     text-align: center;
     padding: 1rem;    

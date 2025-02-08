@@ -5,10 +5,11 @@ import styles from './Navbar.module.css';
 const Navbar: React.FC = () => {
     return (
         <nav className={styles.navbar}>
-            <div className={styles.logo}>
-                <img src="/path/to/logo.png" alt="Bestopia Logo" />
-                Bestopia
-            </div>
+            <Link href="/">
+                <div className={styles.logo}>
+                    <img src="/bestopia_logo.png" alt="Bestopia Logo" />
+                </div>
+            </Link>
             <ul>
                 <li>
                     <Link href="/">Home</Link>

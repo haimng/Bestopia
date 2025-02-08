@@ -10,13 +10,13 @@
 .title {
   font-size: 4rem;
   text-align: center;
-  color: #402924; /* Updated text color */
+  color: #404040; /* Brighter text color */
 }
 
 .description {
   text-align: center;
   font-size: 1.5rem;
-  color: #733C30; /* Updated text color */
+  color: #595959; /* Brighter text color */
 }
 
 .grid {
@@ -30,15 +30,15 @@
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
-  border: 1px solid #A68160; /* Updated border color */
+  border: 1px solid #D9D9D9; /* Brighter border color */
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  background-color: #F2E2CE; /* Updated background color */
+  background-color: #FFFFFF; /* Brighter background color */
 }
 
 .card:hover {
-  color: #733C30; /* Updated hover text color */
-  border-color: #733C30; /* Updated hover border color */
+  color: #595959; /* Brighter hover text color */
+  border-color: #595959; /* Brighter hover border color */
 }
 
 .logo {
@@ -49,6 +49,6 @@
   max-width: 1024px; /* Set maximum width */
   margin: 0 auto;
   padding: 2rem;
-  background-color: #F2E2CE; /* Updated background color */
+  background-color: #FFFFFF; /* Brighter background color */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

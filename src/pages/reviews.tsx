@@ -24,6 +24,8 @@ const Reviews: React.FC<ReviewsProps> = ({ products }) => {
                 <h2 className={styles.subtitle}>Top picks for the best viewing experience</h2>
                 <p className={styles.introduction}>
                     Welcome to our comprehensive guide to the best TVs available on the market. Whether you're looking for the latest OLED technology or a budget-friendly option, we've got you covered. Read on to find the perfect TV for your needs.
+                    Welcome to our comprehensive guide to the best TVs available on the market. Whether you're looking for the latest OLED technology or a budget-friendly option, we've got you covered. Read on to find the perfect TV for your needs.
+                    Welcome to our comprehensive guide to the best TVs available on the market. Whether you're looking for the latest OLED technology or a budget-friendly option, we've got you covered. Read on to find the perfect TV for your needs.
                 </p>
                 <div className={styles.reviewList}>
                     {products.map((product) => (
