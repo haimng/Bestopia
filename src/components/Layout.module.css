@@ -25,10 +25,15 @@
 }
 
 .footer {
-    background-color: #595959; /* Brighter background color */
+    background-color: black;
     color: white;
     text-align: center;
-    padding: 1rem;    
+    padding: 1rem;
+    font-family: 'Arial', sans-serif; /* Set font family */
+    font-weight: bold; /* Set font weight */
+    text-transform: uppercase; /* Set text to uppercase */
+    letter-spacing: 0.1rem; /* Set letter spacing */
+    font-size: 0.75rem; /* Make the footer text size smaller */
 }
 
 .layout h1, .layout h2, .layout h3, .layout h4, .layout h5, .layout h6 {

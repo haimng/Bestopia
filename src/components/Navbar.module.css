@@ -10,17 +10,23 @@
     list-style: none;
     display: flex;
     gap: 2rem; /* Further increased gap to keep more distance */
-    margin-top: 0.5rem; /* Add margin to separate from logo */
+    margin: 0.5rem 0;
     justify-content: center; /* Center the nav links */
-    width: 100%; /* Ensure the nav links take full width */
+    padding: 0; /* Remove default padding */
 }
 
 .navbar li {
     color: white;
+    font-size: 0.875rem; /* Make the nav links text smaller */
+    font-family: 'Arial', sans-serif; /* Set font family */
+    font-weight: bold; /* Set font weight */
+    text-transform: uppercase; /* Set text to uppercase */
+    letter-spacing: 0.1rem; /* Set letter spacing */
 }
 
 .navbar a {
     color: white;
+    text-decoration: none; /* Remove underline from links */
 }
 
 .navbar .logo {
@@ -30,5 +36,5 @@
 }
 
 .navbar .logo img {
-    height: 70px; /* Fix logo height */
+    height: 96px; /* Fix logo height */
 }
