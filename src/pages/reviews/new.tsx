@@ -31,7 +31,8 @@ const NewReviewPage: React.FC = () => {
         });
 
         if (response.ok) {
-            router.push('/reviews');
+            const newReview = await response.json();
+            router.push(`/reviews/${newReview.id}`);
         } else {
             console.error('Failed to post review');
         }

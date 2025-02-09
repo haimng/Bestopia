@@ -9,13 +9,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
             await client.query('BEGIN');
 
-            const reviewResult = await client.query(
-                'INSERT INTO reviews (title, subtitle, introduction, cover_photo) VALUES ($1, $2, $3, $4) RETURNING *',
-                [title.trim(), subtitle.trim(), introduction.trim(), coverPhoto.trim()]
-            );
-
-            const reviewId = reviewResult.rows[0].id;
-
             const lines = productDetails.trim().split('\n');
             const headers = lines[0].split('\t').map((header: string) => header.trim());
             const products = lines.slice(1).map((line: string) => {
@@ -27,6 +20,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 return product;
             });
 
+            const firstProductImageUrl = products.length > 0 ? products[0].image_url : null;
+            const finalCoverPhoto = coverPhoto.trim() || firstProductImageUrl;
+
+            const reviewResult = await client.query(
+                'INSERT INTO reviews (title, subtitle, introduction, cover_photo) VALUES ($1, $2, $3, $4) RETURNING *',
+                [title.trim(), subtitle.trim(), introduction.trim(), finalCoverPhoto]
+            );
+
+            const reviewId = reviewResult.rows[0].id;
+
             const productReviewLines = productReviews.trim().split('\n');
             const productReviewHeaders = productReviewLines[0].split('\t').map((header: string) => header.trim());
             const productReviewsArray = productReviewLines.slice(1).map((line: string) => {
@@ -37,6 +40,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 });
                 return productReview;
             });
+
+            let baseRating = 5.0;
 
             for (let i = 0; i < products.length; i++) {
                 const product = products[i];
@@ -50,9 +55,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                 if (productReview) {
                     const userId = Math.floor(Math.random() * 5) + 1; // Random integer from 1 to 5
+                    const rating = (baseRating - Math.random() * 0.1).toFixed(1); // Decrement rating slightly
+                    baseRating -= 0.1; // Ensure next rating is lower
                     await client.query(
                         'INSERT INTO product_reviews (product_id, user_id, rating, review_text) VALUES ($1, $2, $3, $4)',
-                        [productId, userId, productReview.rating, productReview.review_text]
+                        [productId, userId, parseFloat(rating), productReview.review_text]
                     );
                 }
             }
