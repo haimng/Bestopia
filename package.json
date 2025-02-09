@@ -21,6 +21,7 @@
     "@vercel/speed-insights": "^1.1.0",
     "dotenv": "^16.4.7",
     "next": "latest",
+    "openai": "^4.83.0",
     "pg": "^8.13.1",
     "react": "latest",
     "react-dom": "latest"
