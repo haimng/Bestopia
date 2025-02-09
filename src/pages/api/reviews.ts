@@ -1,30 +1,22 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import OpenAI from 'openai';
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,  
-});
+import { NextApiRequest, NextApiResponse } from 'next';
+import pool from '../../utils/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    res.status(503).json({ error: 'Service Unavailable' });
+    if (req.method === 'POST') {
+        const { title, subtitle, introduction, coverPhoto } = req.body;
 
-    // if (req.method !== 'POST') {
-    //     res.setHeader('Allow', ['POST']);
-    //     return res.status(405).end(`Method ${req.method} Not Allowed`);
-    // }
-
-    // const { prompt } = req.body;
-
-    // let prompt = 'find best 5 tvs from Amazon. give me their name, description, photo url and link to produt page';
-
-    // try {
-    //     const chatCompletion = await client.chat.completions.create({
-    //         messages: [{ role: 'user', content: prompt }],
-    //         model: 'gpt-4o',
-    //     });
-
-    //     res.status(200).json(chatCompletion.choices[0].message);
-    // } catch (error: any) {
-    //     res.status(500).json({ error: error.message || 'An error occurred' });
-    // }
+        try {
+            const result = await pool.query(
+                'INSERT INTO reviews (title, subtitle, introduction, cover_photo) VALUES ($1, $2, $3, $4) RETURNING *',
+                [title, subtitle, introduction, coverPhoto]
+            );
+            res.status(201).json(result.rows[0]);
+        } catch (error: any) {
+            console.error('Error posting review:', error);
+            res.status(500).json({ error: 'Failed to post review', details: error.message || 'Unknown error' });
+        }
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
 }

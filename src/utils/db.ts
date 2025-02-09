@@ -59,4 +59,16 @@ export const getTopReviews = async (): Promise<Review[]> => {
   })) as Review[];
 };
 
+export const getPagedReviews = async (page: number, pageSize: number) => {
+  const offset = (page - 1) * pageSize;
+  const reviewsRes = await connection.query('SELECT * FROM reviews ORDER BY created_at DESC LIMIT $1 OFFSET $2', [pageSize, offset]);
+  const countRes = await connection.query('SELECT COUNT(*) FROM reviews');
+  const totalPages = Math.ceil(parseInt(countRes.rows[0].count, 10) / pageSize);
+
+  return {
+    reviews: reviewsRes.rows,
+    totalPages,
+  };
+};
+
 export default connection;
