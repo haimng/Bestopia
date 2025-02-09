@@ -17,11 +17,11 @@ interface Review {
 }
 
 const connection = new Pool({
-    host: process.env.PG_HOST,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASSWORD,
-    database: process.env.PG_DATABASE,
-    port: parseInt(process.env.PG_PORT || '5432', 10),
+    host: process.env.PGHOST,
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    database: process.env.PGDATABASE,
+    port: parseInt(process.env.PGPORT || '5432', 10),
 });
 
 export const getReviewById = async (id: number) => {
