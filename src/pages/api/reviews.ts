@@ -3,17 +3,68 @@ import pool from '../../utils/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        const { title, subtitle, introduction, coverPhoto } = req.body;
+        const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
 
+        const client = await pool.connect();
         try {
-            const result = await pool.query(
+            await client.query('BEGIN');
+
+            const reviewResult = await client.query(
                 'INSERT INTO reviews (title, subtitle, introduction, cover_photo) VALUES ($1, $2, $3, $4) RETURNING *',
-                [title, subtitle, introduction, coverPhoto]
+                [title.trim(), subtitle.trim(), introduction.trim(), coverPhoto.trim()]
             );
-            res.status(201).json(result.rows[0]);
+
+            const reviewId = reviewResult.rows[0].id;
+
+            const lines = productDetails.trim().split('\n');
+            const headers = lines[0].split('\t').map((header: string) => header.trim());
+            const products = lines.slice(1).map((line: string) => {
+                const values = line.split('\t').map((value: string) => value.trim());
+                const product: any = {};
+                headers.forEach((header: string, index: number) => {
+                    product[header] = values[index];
+                });
+                return product;
+            });
+
+            const productReviewLines = productReviews.trim().split('\n');
+            const productReviewHeaders = productReviewLines[0].split('\t').map((header: string) => header.trim());
+            const productReviewsArray = productReviewLines.slice(1).map((line: string) => {
+                const values = line.split('\t').map((value: string) => value.trim());
+                const productReview: any = {};
+                productReviewHeaders.forEach((header: string, index: number) => {
+                    productReview[header] = values[index];
+                });
+                return productReview;
+            });
+
+            for (let i = 0; i < products.length; i++) {
+                const product = products[i];
+                const productResult = await client.query(
+                    'INSERT INTO products (review_id, name, description, image_url) VALUES ($1, $2, $3, $4) RETURNING *',
+                    [reviewId, product.name, product.description, product.image_url]
+                );
+
+                const productId = productResult.rows[0].id;
+                const productReview = productReviewsArray[i];
+
+                if (productReview) {
+                    const userId = Math.floor(Math.random() * 5) + 1; // Random integer from 1 to 5
+                    await client.query(
+                        'INSERT INTO product_reviews (product_id, user_id, rating, review_text) VALUES ($1, $2, $3, $4)',
+                        [productId, userId, productReview.rating, productReview.review_text]
+                    );
+                }
+            }
+
+            await client.query('COMMIT');
+            res.status(201).json(reviewResult.rows[0]);
         } catch (error: any) {
+            await client.query('ROLLBACK');
             console.error('Error posting review:', error);
             res.status(500).json({ error: 'Failed to post review', details: error.message || 'Unknown error' });
+        } finally {
+            client.release();
         }
     } else {
         res.setHeader('Allow', ['POST']);

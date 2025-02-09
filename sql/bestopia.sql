@@ -32,8 +32,8 @@ CREATE TABLE products (
 CREATE TABLE product_reviews (
   id SERIAL PRIMARY KEY,
   product_id INT NOT NULL,
-  user_id INT NOT NULL,
-  rating INT CHECK (rating >= 1 AND rating <= 5),
+  user_id INT NOT NULL,  
+  rating FLOAT CHECK (rating >= 0 AND rating <= 5.0),
   review_text TEXT NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

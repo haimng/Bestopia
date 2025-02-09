@@ -9,6 +9,8 @@ const NewReviewPage: React.FC = () => {
     const [subtitle, setSubtitle] = useState('');
     const [introduction, setIntroduction] = useState('');
     const [coverPhoto, setCoverPhoto] = useState('');
+    const [productDetails, setProductDetails] = useState('');
+    const [productReviews, setProductReviews] = useState('');
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -18,7 +20,14 @@ const NewReviewPage: React.FC = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ title, subtitle, introduction, coverPhoto }),
+            body: JSON.stringify({
+                title: title.trim(),
+                subtitle: subtitle.trim(),
+                introduction: introduction.trim(),
+                coverPhoto: coverPhoto.trim(),
+                productDetails: productDetails.trim(),
+                productReviews: productReviews.trim(),
+            }),
         });
 
         if (response.ok) {
@@ -72,6 +81,24 @@ const NewReviewPage: React.FC = () => {
                             value={coverPhoto}
                             onChange={(e) => setCoverPhoto(e.target.value)}
                             className={styles.input}
+                        />
+                    </label>
+                    <label className={styles.label}>
+                        Product Details (TSV format: name	description	image_url	product_page):
+                        <textarea
+                            value={productDetails}
+                            onChange={(e) => setProductDetails(e.target.value)}
+                            className={styles.textarea}
+                            required
+                        />
+                    </label>
+                    <label className={styles.label}>
+                        Product Reviews (TSV format: rating	review_text	user_id):
+                        <textarea
+                            value={productReviews}
+                            onChange={(e) => setProductReviews(e.target.value)}
+                            className={styles.textarea}
+                            required
                         />
                     </label>
                     <button type="submit" className={styles.submitButton}>Post Review</button>
