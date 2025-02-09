@@ -10,6 +10,7 @@ interface Product {
     name: string;
     description: string;
     image_url: string;
+    product_page: string;
     created_at: string;
     updated_at: string;
     reviews: ProductReview[];
@@ -41,6 +42,8 @@ interface ReviewPageProps {
 }
 
 const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
+    const firstProductImageUrl = products.length > 0 ? products[0].image_url : '';
+
     return (
         <Layout>
             <Head>
@@ -50,7 +53,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
             <div className={styles.container}>
                 <h1 className={styles.title}>{review.title}</h1>
                 <h2 className={styles.subtitle}>{review.subtitle}</h2>
-                {/* <img src={review.cover_photo} alt="Cover Photo" className={`${styles.coverPhoto} ${styles.responsiveImage}`} /> */}
+                {review.cover_photo && review.cover_photo !== firstProductImageUrl && (
+                    <img src={review.cover_photo} alt="Cover Photo" className={`${styles.coverPhoto} ${styles.responsiveImage}`} />
+                )}
                 <p className={styles.introduction}>{review.introduction}</p>
                 <div className={styles.reviewList}>
                     {products.map((product) => (
@@ -71,7 +76,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                                     </div>
                                 ))}
                             </div>
-                            <button className={styles.buyButton}>See Price</button>
+                            <a href={product.product_page} target="_blank" rel="noopener noreferrer">
+                                <button className={styles.buyButton}>See Price</button>
+                            </a>
                         </div>
                     ))}
                 </div>
