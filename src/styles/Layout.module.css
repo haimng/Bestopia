@@ -43,3 +43,10 @@
     line-height: 1.2;
 }
 
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+    .layout .main {
+        padding: 0; /* Remove padding on mobile */
+    }
+}
+

@@ -39,3 +39,10 @@
     height: 96px; /* Fix logo height */
     border-radius: 5px;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+    .navbar .logo img {
+        height: 48px; /* Reduce logo height by half */
+    }
+}
