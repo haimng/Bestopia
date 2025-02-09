@@ -54,7 +54,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const productReview = productReviewsArray[i];
 
                 if (productReview) {
-                    const userId = Math.floor(Math.random() * 5) + 1; // Random integer from 1 to 5
+                    const userId = Math.floor(Math.random() * 10) + 1; // Random integer from 1 to 10
                     const rating = i < 2 ? '5.0' : (baseRating - Math.random() * 0.1).toFixed(1); // First two ratings are 5.0, then decrement slightly
                     if (i >= 2) baseRating -= 0.1; // Ensure next rating is lower
                     await client.query(
