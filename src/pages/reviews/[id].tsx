@@ -62,11 +62,16 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                                 {product.reviews.map((review) => (
                                     <div key={review.id} className={styles.productReview}>
                                         <p><strong>Rating:</strong> {review.rating}</p>
-                                        <p>{review.review_text} — <span className={styles.displayName}><i>{review.display_name}</i></span></p>
+                                        <p>{review.review_text.split('\n').map((line, index) => (
+                                            <React.Fragment key={index}>
+                                                {line}
+                                                <br />
+                                            </React.Fragment>
+                                        ))} — <span className={styles.displayName}><i>{review.display_name}</i></span></p>
                                     </div>
                                 ))}
                             </div>
-                            <button className={styles.buyButton}>Buy Now</button>
+                            <button className={styles.buyButton}>See Price</button>
                         </div>
                     ))}
                 </div>
