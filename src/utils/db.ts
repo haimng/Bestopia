@@ -22,6 +22,9 @@ const connection = new Pool({
     password: process.env.PGPASSWORD,
     database: process.env.PGDATABASE,
     port: parseInt(process.env.PGPORT || '5432', 10),
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 export const getReviewById = async (id: number) => {
