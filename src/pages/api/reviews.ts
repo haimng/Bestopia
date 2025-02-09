@@ -46,8 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             for (let i = 0; i < products.length; i++) {
                 const product = products[i];
                 const productResult = await client.query(
-                    'INSERT INTO products (review_id, name, description, image_url) VALUES ($1, $2, $3, $4) RETURNING *',
-                    [reviewId, product.name, product.description, product.image_url]
+                    'INSERT INTO products (review_id, name, description, image_url, product_page) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                    [reviewId, product.name, product.description, product.image_url, product.product_page]
                 );
 
                 const productId = productResult.rows[0].id;
@@ -55,8 +55,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                 if (productReview) {
                     const userId = Math.floor(Math.random() * 5) + 1; // Random integer from 1 to 5
-                    const rating = (baseRating - Math.random() * 0.1).toFixed(1); // Decrement rating slightly
-                    baseRating -= 0.1; // Ensure next rating is lower
+                    const rating = i < 2 ? '5.0' : (baseRating - Math.random() * 0.1).toFixed(1); // First two ratings are 5.0, then decrement slightly
+                    if (i >= 2) baseRating -= 0.1; // Ensure next rating is lower
                     await client.query(
                         'INSERT INTO product_reviews (product_id, user_id, rating, review_text) VALUES ($1, $2, $3, $4)',
                         [productId, userId, parseFloat(rating), productReview.review_text]
