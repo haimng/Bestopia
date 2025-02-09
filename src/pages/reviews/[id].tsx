@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Reviews.module.css';
@@ -42,6 +43,10 @@ interface ReviewPageProps {
 const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
     return (
         <Layout>
+            <Head>
+                <title>{review.title}</title>
+                <meta name="description" content={review.subtitle} />
+            </Head>
             <div className={styles.container}>
                 <h1 className={styles.title}>{review.title}</h1>
                 <h2 className={styles.subtitle}>{review.subtitle}</h2>
