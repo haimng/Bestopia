@@ -8,7 +8,8 @@
 
 @media (min-width: 1024px) {
     .container {
-        max-width: 60%; /* Set to half of the screen width */
+        min-width: 700px;
+        max-width: 50%; /* Set to half of the screen width */
     }
 }
 
@@ -130,4 +131,10 @@
     width: 64px;
     height: 64px; /* Ensure the height is also set */
     border-radius: 50%; /* Make the avatar circular */    
+}
+
+.socialShare {
+    display: flex;
+    gap: 10px; /* Add gap between share buttons */
+    margin-top: 20px; /* Add margin to the top of the share buttons */
 }

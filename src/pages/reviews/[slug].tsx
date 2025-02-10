@@ -5,6 +5,14 @@ import Layout from '../../components/Layout';
 import styles from '../../styles/Reviews.module.css';
 import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId } from '../../utils/db';
 import { DOMAIN } from '../../constants';
+import {
+    FacebookShareButton,
+    TwitterShareButton,
+    LinkedinShareButton,
+    FacebookIcon,
+    TwitterIcon,
+    LinkedinIcon
+} from 'react-share';
 
 interface Product {
     id: number;
@@ -47,6 +55,7 @@ interface ReviewPageProps {
 const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
     const firstProductImageUrl = products.length > 0 ? products[0].image_url : '';
     const firstReviewer = products.length > 0 && products[0].reviews.length > 0 ? products[0].reviews[0].display_name : 'Emily Johnson';
+    const shareUrl = `${DOMAIN}/reviews/${review.slug}`;
 
     const structuredData = {
         "@context": "https://schema.org",
@@ -85,14 +94,14 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                 <meta property="og:title" content={review.title} />
                 <meta property="og:description" content={review.subtitle} />
                 <meta property="og:image" content={review.cover_photo || firstProductImageUrl} />
-                <meta property="og:url" content={`${DOMAIN}/reviews/${review.slug}`} />
+                <meta property="og:url" content={shareUrl} />
                 <meta property="og:type" content="article" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={review.title} />
                 <meta name="twitter:description" content={review.subtitle} />
                 <meta name="twitter:image" content={review.cover_photo || firstProductImageUrl} />
                 <meta name="twitter:site" content="@Bestopia" />
-                <link rel="canonical" href={`${DOMAIN}/reviews/${review.slug}`} />
+                <link rel="canonical" href={shareUrl} />
                 <script type="application/ld+json">
                     {JSON.stringify(structuredData)}
                 </script>
@@ -134,6 +143,17 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                             </a>
                         </div>
                     ))}
+                </div>
+                <div className={styles.socialShare}>
+                    <FacebookShareButton url={shareUrl}>
+                        <FacebookIcon size={32} round />
+                    </FacebookShareButton>
+                    <TwitterShareButton url={shareUrl} title={review.title}>
+                        <TwitterIcon size={32} round />
+                    </TwitterShareButton>
+                    <LinkedinShareButton url={shareUrl} title={review.title} summary={review.subtitle}>
+                        <LinkedinIcon size={32} round />
+                    </LinkedinShareButton>
                 </div>
             </div>
         </Layout>
