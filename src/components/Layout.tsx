@@ -13,6 +13,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <Head>
                 <title>Bestopia – A utopia of the best products.</title>
                 <meta name="description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
+                <meta property="og:title" content="Bestopia – A utopia of the best products." />
+                <meta property="og:description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
+                <meta property="og:image" content="/bestopia_logo.png" />
+                <meta property="og:url" content="https://bestopia.net" />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Bestopia – A utopia of the best products." />
+                <meta name="twitter:description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
+                <meta name="twitter:image" content="/bestopia_logo.png" />
+                <meta name="twitter:site" content="@Bestopia" />
             </Head>
             <Navbar />
             <main className={styles.main}>

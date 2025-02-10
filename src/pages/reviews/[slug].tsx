@@ -29,6 +29,7 @@ interface ProductReview {
 
 interface Review {
     id: number;
+    slug: string;
     title: string;
     subtitle: string;
     introduction: string;
@@ -78,6 +79,16 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
             <Head>
                 <title>{review.title}</title>
                 <meta name="description" content={review.subtitle} />
+                <meta property="og:title" content={review.title} />
+                <meta property="og:description" content={review.subtitle} />
+                <meta property="og:image" content={review.cover_photo || firstProductImageUrl} />
+                <meta property="og:url" content={`https://bestopia.net/reviews/${review.slug}`} />
+                <meta property="og:type" content="article" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={review.title} />
+                <meta name="twitter:description" content={review.subtitle} />
+                <meta name="twitter:image" content={review.cover_photo || firstProductImageUrl} />
+                <meta name="twitter:site" content="@Bestopia" />
                 <script type="application/ld+json">
                     {JSON.stringify(structuredData)}
                 </script>
