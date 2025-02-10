@@ -89,6 +89,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                 <meta name="twitter:description" content={review.subtitle} />
                 <meta name="twitter:image" content={review.cover_photo || firstProductImageUrl} />
                 <meta name="twitter:site" content="@Bestopia" />
+                <link rel="canonical" href={`https://bestopia.net/reviews/${review.slug}`} />
                 <script type="application/ld+json">
                     {JSON.stringify(structuredData)}
                 </script>
