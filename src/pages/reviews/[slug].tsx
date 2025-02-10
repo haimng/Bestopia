@@ -44,12 +44,43 @@ interface ReviewPageProps {
 
 const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
     const firstProductImageUrl = products.length > 0 ? products[0].image_url : '';
+    const firstReviewer = products.length > 0 && products[0].reviews.length > 0 ? products[0].reviews[0].display_name : 'Emily Johnson';
+
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        "name": review.title,
+        "author": {
+            "@type": "Person",
+            "name": firstReviewer
+        },
+        "datePublished": review.created_at,
+        "reviewBody": review.introduction,
+        "itemReviewed": products.map(product => ({
+            "@type": "Product",
+            "name": product.name,
+            "image": product.image_url,
+            "description": product.description,
+            "offers": {
+                "@type": "Offer",
+                "url": product.product_page                
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": product.reviews.reduce((acc, review) => acc + review.rating, 0) / product.reviews.length,
+                "reviewCount": product.reviews.length
+            }
+        }))
+    };
 
     return (
         <Layout>
             <Head>
                 <title>{review.title}</title>
                 <meta name="description" content={review.subtitle} />
+                <script type="application/ld+json">
+                    {JSON.stringify(structuredData)}
+                </script>
             </Head>
             <div className={styles.container}>
                 <h1 className={styles.title}>{review.title}</h1>
@@ -83,7 +114,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                                     </div>
                                 ))}
                             </div>
-                            <a href={product.product_page} target="_blank" rel="noopener noreferrer">
+                            <a href={product.product_page} target="_blank" rel="nofollow noopener noreferrer">
                                 <button className={styles.buyButton}>See Price</button>
                             </a>
                         </div>

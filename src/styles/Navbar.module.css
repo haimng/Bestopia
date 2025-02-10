@@ -42,6 +42,18 @@
 
 /* Media query for mobile devices */
 @media (max-width: 600px) {
+    .navbar {
+        padding: 0.5rem;
+    }
+
+    .navbar ul {        
+        gap: 1rem;
+    }
+
+    .navbar li {
+        font-size: 0.75rem;
+    }
+
     .navbar .logo img {
         height: 48px; /* Reduce logo height by half */
     }

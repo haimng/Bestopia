@@ -191,3 +191,80 @@
   color: white;
   border-color: #0070f3;
 }
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+  .home {
+    padding: 0 10px;
+  }
+
+  .titleGroup .title {
+    font-size: 2rem;
+  }
+
+  .titleGroup .subtitle {
+    font-size: 0.875rem;
+  }
+
+  .description {
+    font-size: 1.25rem;
+  }
+
+  .grid {
+    margin-top: 2rem;
+  }
+
+  .card {
+    margin: 0.5rem;
+    padding: 1rem;
+  }
+
+  .container {
+    padding: 10px;
+  }
+
+  .header {
+    padding: 10px 0;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .main {
+    gap: 20px;
+    padding: 10px 0;
+  }
+
+  .featured {
+    padding: 10px;
+  }
+
+  .featuredTitle {
+    font-size: 1.5rem;
+  }
+
+  .featuredDescription {
+    font-size: 1rem;
+  }
+
+  .reviews {
+    gap: 10px;
+  }
+
+  .review {
+    padding: 10px;
+  }
+
+  .coverPhoto {
+    margin-bottom: 5px;
+  }
+
+  .pagination {
+    margin-top: 10px;
+  }
+
+  .pageButton {
+    padding: 5px 10px;
+  }
+}
