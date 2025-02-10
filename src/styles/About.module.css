@@ -1,0 +1,24 @@
+.container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.paragraph {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.companyPhoto {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    margin: 0 auto 20px;
+}
