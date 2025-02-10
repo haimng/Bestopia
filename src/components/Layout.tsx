@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Navbar from './Navbar';
 import styles from '../styles/Layout.module.css';
+import { DOMAIN } from '../constants';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -16,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <meta property="og:title" content="Bestopia – A utopia of the best products." />
                 <meta property="og:description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
                 <meta property="og:image" content="/bestopia_logo.png" />
-                <meta property="og:url" content="https://bestopia.net" />
+                <meta property="og:url" content={DOMAIN} />
                 <meta property="og:type" content="website" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Bestopia – A utopia of the best products." />

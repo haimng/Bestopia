@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Reviews.module.css';
 import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId } from '../../utils/db';
+import { DOMAIN } from '../../constants';
 
 interface Product {
     id: number;
@@ -82,14 +83,14 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                 <meta property="og:title" content={review.title} />
                 <meta property="og:description" content={review.subtitle} />
                 <meta property="og:image" content={review.cover_photo || firstProductImageUrl} />
-                <meta property="og:url" content={`https://bestopia.net/reviews/${review.slug}`} />
+                <meta property="og:url" content={`${DOMAIN}/reviews/${review.slug}`} />
                 <meta property="og:type" content="article" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={review.title} />
                 <meta name="twitter:description" content={review.subtitle} />
                 <meta name="twitter:image" content={review.cover_photo || firstProductImageUrl} />
                 <meta name="twitter:site" content="@Bestopia" />
-                <link rel="canonical" href={`https://bestopia.net/reviews/${review.slug}`} />
+                <link rel="canonical" href={`${DOMAIN}/reviews/${review.slug}`} />
                 <script type="application/ld+json">
                     {JSON.stringify(structuredData)}
                 </script>
