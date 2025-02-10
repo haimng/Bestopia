@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import pool from '../../utils/db';
+import slugify from 'slugify'; // Add this line
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
@@ -23,9 +24,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const firstProductImageUrl = products.length > 0 ? products[0].image_url : null;
             const finalCoverPhoto = coverPhoto.trim() || firstProductImageUrl;
 
+            const slug = slugify(title.trim(), { lower: true }); // Add this line
+
             const reviewResult = await client.query(
-                'INSERT INTO reviews (title, subtitle, introduction, cover_photo) VALUES ($1, $2, $3, $4) RETURNING *',
-                [title.trim(), subtitle.trim(), introduction.trim(), finalCoverPhoto]
+                'INSERT INTO reviews (title, subtitle, introduction, cover_photo, slug) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+                [title.trim(), subtitle.trim(), introduction.trim(), finalCoverPhoto, slug] // Update this line
             );
 
             const reviewId = reviewResult.rows[0].id;

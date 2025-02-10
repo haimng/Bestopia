@@ -21,7 +21,7 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
           </div>
           <nav className={styles.nav}>
             {reviews && reviews.map((review, index) => (
-              <Link key={index} href={`/reviews/${review.id}`} legacyBehavior>
+              <Link key={index} href={`/reviews/${review.slug}`} legacyBehavior>
                 <a className={`${styles.navItem} ${styles.link}`}>
                   {review.title}
                 </a>
@@ -37,12 +37,12 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
           <section className={styles.reviews}>
             {reviews && reviews.map((review, index) => (
               <div key={index} className={styles.review} id={`review${index + 1}`}>
-                <Link href={`/reviews/${review.id}`} legacyBehavior>
+                <Link href={`/reviews/${review.slug}`} legacyBehavior>
                   <a className={styles.link}>
                     <img src={review.cover_photo} alt={review.title} className={styles.coverPhoto} />
                   </a>
                 </Link>
-                <Link href={`/reviews/${review.id}`} legacyBehavior>
+                <Link href={`/reviews/${review.slug}`} legacyBehavior>
                   <a className={`${styles.reviewTitleLink} ${styles.link}`}>
                     <h3>{review.title}</h3>
                   </a>

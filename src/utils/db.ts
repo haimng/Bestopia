@@ -32,6 +32,11 @@ export const getReviewById = async (id: number) => {
     return res.rows[0];
 };
 
+export const getReviewBySlug = async (slug: string) => {
+    const res = await connection.query('SELECT * FROM reviews WHERE slug = $1', [slug]);
+    return res.rows[0];
+};
+
 export const getProductsByReviewId = async (reviewId: number): Promise<Product[]> => {
   const query = 'SELECT * FROM products WHERE review_id = $1 ORDER BY id ASC';
   const res = await connection.query(query, [reviewId]);

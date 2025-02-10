@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Reviews.module.css';
-import { getReviewById, getProductsByReviewId, getProductReviewsByProductId } from '../../utils/db';
+import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId } from '../../utils/db';
 
 interface Product {
     id: number;
@@ -24,7 +24,7 @@ interface ProductReview {
     created_at: string;
     updated_at: string;
     display_name: string;
-    avatar: string; // Change this line
+    avatar: string;
 }
 
 interface Review {
@@ -95,9 +95,14 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { id } = context.params!;
-    const review = await getReviewById(Number(id));
-    const products = await getProductsByReviewId(Number(id));
+    const { slug } = context.params!;
+    if (typeof slug !== 'string') {
+        return {
+            notFound: true,
+        };
+    }
+    const review = await getReviewBySlug(slug);
+    const products = await getProductsByReviewId(review.id);
 
     const serializedReview = {
         ...review,
@@ -116,7 +121,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 created_at: review.created_at.toISOString(),
                 updated_at: review.updated_at.toISOString(),
                 display_name: review.display_name,
-                avatar: review.avatar || null, // Ensure avatar is not undefined
+                avatar: review.avatar || null,
             })): [],
         };
     }));
