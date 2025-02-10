@@ -112,13 +112,27 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                 {review.cover_photo && review.cover_photo !== firstProductImageUrl && (
                     <img src={review.cover_photo} alt="Cover Photo" className={`${styles.coverPhoto} ${styles.responsiveImage}`} />
                 )}
-                <p className={styles.introduction}>{review.introduction}</p>
+                <p className={styles.introduction}>
+                    {review.introduction.split('\n').map((line, index) => (
+                        <React.Fragment key={index}>
+                            {line}
+                            <br />
+                        </React.Fragment>
+                    ))}
+                </p>
                 <div className={styles.reviewList}>
                     {products.map((product) => (
                         <div key={product.id} className={styles.reviewItem}>
                             <img src={product.image_url} alt={product.name} className={styles.reviewImage} />
                             <h2 className={styles.reviewTitle}>{product.name}</h2>
-                            <p className={styles.reviewContent}>{product.description}</p>
+                            <p className={styles.reviewContent}>
+                                {product.description.split('\n').map((line, index) => (
+                                    <React.Fragment key={index}>
+                                        {line}
+                                        <br />
+                                    </React.Fragment>
+                                ))}
+                            </p>
                             <div className={styles.productReviews}>
                                 {product.reviews.map((review) => (
                                     <div key={review.id} className={styles.productReview}>

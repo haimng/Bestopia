@@ -41,7 +41,14 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
                   </a>
                 </Link>
                 <h4>{review.subtitle}</h4>
-                <p>{review.introduction}</p>
+                <p>
+                  {review.introduction.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                </p>
               </div>
             ))}
           </section>
