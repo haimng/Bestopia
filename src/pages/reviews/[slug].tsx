@@ -65,7 +65,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
             "description": product.description,
             "offers": {
                 "@type": "Offer",
-                "url": product.product_page                
+                "url": product.product_page,
+                "priceCurrency": "USD",
+                "price": "0.00"
             },
             "aggregateRating": {
                 "@type": "AggregateRating",
