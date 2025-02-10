@@ -24,6 +24,7 @@ interface ProductReview {
     created_at: string;
     updated_at: string;
     display_name: string;
+    avatar: string; // Change this line
 }
 
 interface Review {
@@ -72,7 +73,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                                                 {line}
                                                 <br />
                                             </React.Fragment>
-                                        ))} — <span className={styles.displayName}><i>{review.display_name}</i></span></p>
+                                        ))}</p>
+                                        <p className={styles.reviewer}>
+                                          <span className={styles.displayName}>
+                                              <i>— {review.display_name}</i>
+                                              <img src={review.avatar} alt="Avatar" className={styles.avatar} />
+                                          </span>
+                                        </p>
                                     </div>
                                 ))}
                             </div>
@@ -109,6 +116,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 created_at: review.created_at.toISOString(),
                 updated_at: review.updated_at.toISOString(),
                 display_name: review.display_name,
+                avatar: review.avatar || null, // Ensure avatar is not undefined
             })): [],
         };
     }));

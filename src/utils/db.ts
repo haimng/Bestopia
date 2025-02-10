@@ -40,7 +40,7 @@ export const getProductsByReviewId = async (reviewId: number): Promise<Product[]
 
 export const getProductReviewsByProductId = async (productId: number) => {
     const query = `
-        SELECT pr.*, u.display_name 
+        SELECT pr.*, u.display_name, u.avatar
         FROM product_reviews pr
         JOIN users u ON pr.user_id = u.id
         WHERE pr.product_id = $1

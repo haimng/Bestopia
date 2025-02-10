@@ -75,6 +75,9 @@
 .displayName {
     font-style: italic; /* Set display name to italic */
     font-weight: normal; /* Set display name to regular (not bold) */
+    display: flex; /* Add this line */
+    align-items: center; /* Add this line */
+    gap: 10px; /* Add some space between the name and the avatar */
 }
 
 .buyButton {
@@ -117,4 +120,14 @@
     margin-bottom: 20px;
     border-radius: 15px; /* Add curved border */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.reviewer {
+  padding-top: 15px;
+}
+
+.avatar {
+    width: 64px;
+    height: 64px; /* Ensure the height is also set */
+    border-radius: 50%; /* Make the avatar circular */    
 }

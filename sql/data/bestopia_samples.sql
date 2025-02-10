@@ -1,14 +1,14 @@
-INSERT INTO users (username, email, password, display_name) VALUES
-('emily_johnson', 'emily.johnson@example.com', 'password123', 'Emily Johnson'),
-('olivia_smith', 'olivia.smith@example.com', 'password123', 'Olivia Smith'),
-('sophia_brown', 'sophia.brown@example.com', 'password123', 'Sophia Brown'),
-('james_smith', 'james.smith@example.com', 'password123', 'James Smith'),
-('michael_johnson', 'michael.johnson@example.com', 'password123', 'Michael Johnson'),
-('emma_davis', 'emma.davis@example.com', 'password123', 'Emma Davis'),
-('isabella_wilson', 'isabella.wilson@example.com', 'password123', 'Isabella Wilson'),
-('ava_martinez', 'ava.martinez@example.com', 'password123', 'Ava Martinez'),
-('william_brown', 'william.brown@example.com', 'password123', 'William Brown'),
-('david_miller', 'david.miller@example.com', 'password123', 'David Miller');
+INSERT INTO users (username, email, password, display_name, avatar) VALUES
+('emily_johnson', 'emily.johnson@example.com', 'password123', 'Emily Johnson', '/img/avatars/emily_johnson.png'),
+('olivia_smith', 'olivia.smith@example.com', 'password123', 'Olivia Smith', '/img/avatars/olivia_smith.png'),
+('sophia_brown', 'sophia.brown@example.com', 'password123', 'Sophia Brown', '/img/avatars/sophia_brown.png'),
+('james_smith', 'james.smith@example.com', 'password123', 'James Smith', '/img/avatars/james_smith.png'),
+('michael_johnson', 'michael.johnson@example.com', 'password123', 'Michael Johnson', '/img/avatars/michael_johnson.png'),
+('emma_davis', 'emma.davis@example.com', 'password123', 'Emma Davis', '/img/avatars/emma_davis.png'),
+('isabella_wilson', 'isabella.wilson@example.com', 'password123', 'Isabella Wilson', '/img/avatars/isabella_wilson.png'),
+('ava_martinez', 'ava.martinez@example.com', 'password123', 'Ava Martinez', '/img/avatars/ava_martinez.png'),
+('william_brown', 'william.brown@example.com', 'password123', 'William Brown', '/img/avatars/william_brown.png'),
+('david_miller', 'david.miller@example.com', 'password123', 'David Miller', '/img/avatars/david_miller.png');
 
 INSERT INTO reviews (title, subtitle, introduction, cover_photo) VALUES
 ('Top Smartphones of 2025', 'The best smartphones you can buy right now.', 'Looking for a new smartphone? We have tested and reviewed the latest models from Apple, Samsung, Google, and more. Whether you need the best camera, the longest battery life, or the most powerful processor, we have got you covered. Check out our top picks for the best smartphones of 2025.', 'https://picsum.photos/700/400'),
