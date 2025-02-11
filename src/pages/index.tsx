@@ -1,9 +1,11 @@
 import React from 'react';
+import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
 import { GetServerSideProps } from 'next';
 import { Review } from '../types';
 import { getTopReviews } from '../utils/db';
+import { DOMAIN } from '../constants';
 import Link from 'next/link';
 
 type HomeProps = {
@@ -13,6 +15,20 @@ type HomeProps = {
 const Home: React.FC<HomeProps> = ({ reviews }) => {
   return (
     <Layout>
+      <Head>
+        <title>Bestopia – A utopia of the best products.</title>
+        <meta name="description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
+        <meta property="og:title" content="Bestopia – A utopia of the best products." />
+        <meta property="og:description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
+        <meta property="og:image" content="/bestopia_logo.png" />
+        <meta property="og:url" content={DOMAIN} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Bestopia – A utopia of the best products." />
+        <meta name="twitter:description" content="Discover the best products curated just for you at Bestopia. Your utopia for quality and excellence." />
+        <meta name="twitter:image" content="/bestopia_logo.png" />
+        <meta name="twitter:site" content="@Bestopia" />
+      </Head>
       <div className={styles.container}>
         <header className={styles.header}>
           <div className={styles.titleGroup} style={{ textAlign: 'left' }}>
