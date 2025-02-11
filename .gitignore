@@ -19,6 +19,7 @@
 .DS_Store
 *.pem
 /tmp/
+/sql/data/backup/
 
 # debug
 npm-debug.log*
