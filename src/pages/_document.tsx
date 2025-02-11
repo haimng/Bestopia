@@ -5,7 +5,17 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* ...existing code... */}
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-60CMX3NJL6"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-60CMX3NJL6');
+              `,
+            }}
+          />
         </Head>
         <body>
           <Main />
