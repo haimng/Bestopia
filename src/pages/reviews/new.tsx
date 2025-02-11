@@ -11,10 +11,12 @@ const NewReviewPage: React.FC = () => {
     const [coverPhoto, setCoverPhoto] = useState('');
     const [productDetails, setProductDetails] = useState('');
     const [productReviews, setProductReviews] = useState('');
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         const response = await fetch('/api/reviews', {
             method: 'POST',
             headers: {
@@ -36,6 +38,7 @@ const NewReviewPage: React.FC = () => {
         } else {
             console.error('Failed to post review');
         }
+        setLoading(false);
     };
 
     return (
@@ -102,7 +105,9 @@ const NewReviewPage: React.FC = () => {
                             required
                         />
                     </label>
-                    <button type="submit" className={styles.submitButton}>Post Review</button>
+                    <button type="submit" className={styles.submitButton} disabled={loading}>
+                        {loading ? 'Posting...' : 'Post Review'}
+                    </button>
                 </form>
             </div>
         </Layout>
