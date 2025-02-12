@@ -76,4 +76,13 @@ export const getPagedReviews = async (page: number, pageSize: number = 20) => {
   };
 };
 
+export const getRandomReviews = async (limit: number = 10): Promise<Review[]> => {
+  const res = await connection.query('SELECT * FROM reviews ORDER BY RANDOM() LIMIT $1', [limit]);
+  return res.rows.map(review => ({
+    ...review,
+    created_at: review.created_at.toISOString(), // Convert Date to string
+    updated_at: review.updated_at.toISOString(), // Convert Date to string
+  })) as Review[];
+};
+
 export default connection;

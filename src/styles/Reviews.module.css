@@ -139,3 +139,50 @@
     gap: 10px; /* Add gap between share buttons */
     margin-top: 20px; /* Add margin to the top of the share buttons */
 }
+
+.readMore {
+    margin-top: 40px;
+}
+
+.readMoreList {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .readMoreList {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.readMoreItem {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.readMoreItem h3 {
+    margin-top: 0;
+}
+
+.readMoreItem h4 {
+    margin-bottom: 10px;
+}
+
+.readMoreItem p {
+    margin-bottom: 0;
+}
+
+.readMoreItem .coverPhoto {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.readMoreItem .reviewTitleLink {
+    text-decoration: none;
+    color: inherit;
+}

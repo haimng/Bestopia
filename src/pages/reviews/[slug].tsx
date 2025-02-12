@@ -2,8 +2,9 @@ import React from 'react';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
+import Link from 'next/link';
 import styles from '../../styles/Reviews.module.css';
-import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId } from '../../utils/db';
+import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId, getRandomReviews } from '../../utils/db';
 import { DOMAIN } from '../../constants';
 import {
     FacebookShareButton,
@@ -50,9 +51,10 @@ interface Review {
 interface ReviewPageProps {
     review: Review;
     products: Product[];
+    randomReviews: Review[];
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews }) => {
     const firstProductImageUrl = products.length > 0 ? products[0].image_url : '';
     const firstReviewer = products.length > 0 && products[0].reviews.length > 0 ? products[0].reviews[0].display_name : 'Emily Johnson';
     const shareUrl = `${DOMAIN}/reviews/${review.slug}`;
@@ -169,6 +171,26 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products }) => {
                         <LinkedinIcon size={32} round />
                     </LinkedinShareButton>
                 </div>
+                <section className={styles.readMore}>
+                    <h2>Read More</h2>
+                    <div className={styles.readMoreList}>
+                        {randomReviews.map((randomReview, index) => (
+                            <div key={index} className={styles.readMoreItem}>
+                                <Link href={`/reviews/${randomReview.slug}`} legacyBehavior>
+                                    <a className={styles.link}>
+                                        <img src={randomReview.cover_photo} alt={randomReview.title} className={styles.coverPhoto} />
+                                    </a>
+                                </Link>
+                                <Link href={`/reviews/${randomReview.slug}`} legacyBehavior>
+                                    <a className={`${styles.reviewTitleLink} ${styles.link}`}>
+                                        <h3>{randomReview.title}</h3>
+                                    </a>
+                                </Link>
+                                <h4>{randomReview.subtitle}</h4>
+                            </div>
+                        ))}
+                    </div>
+                </section>
             </div>
         </Layout>
     );
@@ -183,6 +205,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     const review = await getReviewBySlug(slug);
     const products = await getProductsByReviewId(review.id);
+    const randomReviews = await getRandomReviews();
 
     const serializedReview = {
         ...review,
@@ -206,10 +229,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     }));
 
+    const serializedRandomReviews = randomReviews.map((randomReview: any) => ({
+        ...randomReview,
+        created_at: new Date(randomReview.created_at).toISOString(),
+        updated_at: new Date(randomReview.updated_at).toISOString(),
+    }));
+
     return {
         props: {
             review: serializedReview,
             products: serializedProducts,
+            randomReviews: serializedRandomReviews,
         },
     };
 };
