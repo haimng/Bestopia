@@ -47,8 +47,8 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
         </header>
         <main className={styles.main}>
           <section className={styles.featured}>
-            <h2 className={styles.featuredTitle}>Featured Review</h2>
-            <p className={styles.featuredDescription}>Discover the latest and greatest in our featured review.</p>
+            <h2 className={styles.featuredTitle}>Featured Reviews</h2>
+            <p className={styles.featuredDescription}>Discover the latest and greatest in our featured reviews.</p>
           </section>
           <section className={styles.reviews}>
             {reviews && reviews.map((review, index) => (
