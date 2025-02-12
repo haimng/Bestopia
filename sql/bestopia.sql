@@ -45,3 +45,6 @@ CREATE TABLE product_reviews (
   FOREIGN KEY (product_id) REFERENCES products(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO dbuser;

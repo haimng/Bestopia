@@ -36,7 +36,7 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
             <h2 className={styles.subtitle}>A utopia of the best products.</h2>
           </div>
           <nav className={styles.nav}>
-            {reviews && reviews.map((review, index) => (
+            {reviews && reviews.slice(0, 10).map((review, index) => (
               <Link key={index} href={`/reviews/${review.slug}`} legacyBehavior>
                 <a className={`${styles.navItem} ${styles.link}`}>
                   {review.title}
