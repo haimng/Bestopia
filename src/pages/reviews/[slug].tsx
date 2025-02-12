@@ -164,9 +164,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
             </Head>
             <div className={styles.container}>
                 {isAdminUser && (
-                    <button className={styles.editButton} onClick={() => router.push(`/reviews/edit?id=${review.id}`)}>
-                        Edit
-                    </button>
+                    <Link href={`/reviews/edit?id=${review.id}`} legacyBehavior>
+                        <a className={styles.editButton}>Edit</a>
+                    </Link>
                 )}
                 <h1 className={styles.title}>{review.title}</h1>
                 <h2 className={styles.subtitle}>{review.subtitle}</h2>
