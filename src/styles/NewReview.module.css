@@ -54,8 +54,14 @@
     text-align: center; /* Center the error message */
 }
 
-.imageHeight {
-    height: 150px;
+.editImagePreview {
+  height: 150px;
+  margin-left: 20px;
+}
+
+.buttonLink {
+  margin-left: 15px;
+  color: blue;
 }
 
 /* Media query for mobile devices */

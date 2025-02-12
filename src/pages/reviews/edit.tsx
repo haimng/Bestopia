@@ -151,15 +151,15 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                 </div>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Cover Photo URL:</label>
+                    {editableReview.cover_photo && (
+                        <img src={editableReview.cover_photo} alt="Cover Photo" className={styles.editImagePreview} />
+                    )}
                     <input
                         type="text"
                         value={editableReview.cover_photo}
                         onChange={(e) => handleReviewChange('cover_photo', e.target.value)}
                         className={styles.input}
-                    />
-                    {editableReview.cover_photo && (
-                        <img src={editableReview.cover_photo} alt="Cover Photo" className={`${styles.imagePreview} ${styles.imageHeight}`} />
-                    )}
+                    />                    
                 </div>
                 {reviewError && <p className={styles.error}>{reviewError}</p>}
                 <button onClick={handleSaveReview} className={styles.submitButton} disabled={loadingReview}>
@@ -189,22 +189,23 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Image URL:</label>
+                            {product.image_url && (
+                                <img src={product.image_url} alt="Product Image" className={styles.editImagePreview} />
+                            )}
                             <input
                                 type="text"
                                 value={product.image_url}
                                 onChange={(e) => handleProductChange(product.id, 'image_url', e.target.value)}
                                 className={styles.input}
-                            />
-                            {product.image_url && (
-                                <img src={product.image_url} alt="Product Image" className={`${styles.imagePreview} ${styles.imageHeight}`} />
-                            )}
+                            />                            
                         </div>
                         <div className={styles.formGroup}>                                                                                    
                             <label className={styles.label}>
-                              <a href={product.product_page} target="_blank" rel="noopener noreferrer" className={styles.link}>
-                                Product Page URL:
-                              </a>
-                            </label>
+                              Product Page URL:                              
+                            </label>                            
+                            <a href={product.product_page} target="_blank" rel="noopener noreferrer" className={styles.buttonLink}>
+                              See Product
+                            </a>
                             <input
                                 type="text"
                                 value={product.product_page}
