@@ -71,7 +71,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const page = parseInt(context.query.page as string) || 1;
-  const { reviews, totalPages } = await getPagedReviews(page, 10);
+  const { reviews, totalPages } = await getPagedReviews(page, 20);
 
   const serializedReviews = reviews.map((review: any) => ({
     ...review,
