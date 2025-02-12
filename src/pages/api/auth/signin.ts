@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET_KEY, { expiresIn: '1h' });
 
-      res.status(200).json({ token });
+      res.status(200).json({ token, role: user.role });
     } catch (error: any) {
       console.error('Error during sign-in:', error);
       res.status(500).json({ error: 'Internal server error', details: error.message || 'Unknown error' });

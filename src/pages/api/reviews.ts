@@ -1,9 +1,26 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import pool from '../../utils/db';
-import slugify from 'slugify'; // Add this line
+import slugify from 'slugify';
+import jwt from 'jsonwebtoken';
+
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || '';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        try {
+            const decoded: any = jwt.verify(token, JWT_SECRET_KEY);
+            if (decoded.role !== 'admin') {
+                return res.status(403).json({ error: 'Forbidden' });
+            }
+        } catch (error) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
         const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
 
         const client = await pool.connect();
@@ -24,11 +41,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const firstProductImageUrl = products.length > 0 ? products[0].image_url : null;
             const finalCoverPhoto = coverPhoto.trim() || firstProductImageUrl;
 
-            const slug = slugify(title.trim(), { lower: true }); // Add this line
+            const slug = slugify(title.trim(), { lower: true });
 
             const reviewResult = await client.query(
                 'INSERT INTO reviews (title, subtitle, introduction, cover_photo, slug) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                [title.trim(), subtitle.trim(), introduction.trim(), finalCoverPhoto, slug] // Update this line
+                [title.trim(), subtitle.trim(), introduction.trim(), finalCoverPhoto, slug]
             );
 
             const reviewId = reviewResult.rows[0].id;

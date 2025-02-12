@@ -29,8 +29,9 @@ const Signin: React.FC = () => {
       }
 
       const data = await response.json();
-      // Save the token to local storage or cookies
+      // Save the token and role to local storage
       localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
       router.push('/');
     } catch (error: any) {
       setError(error.message);

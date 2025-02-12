@@ -14,6 +14,7 @@ const Navbar: React.FC = () => {
 
     const handleSignOut = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role'); // Remove role from localStorage
         setIsSignedIn(false);
         router.push('/signin');
     };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
@@ -12,15 +12,29 @@ const NewReviewPage: React.FC = () => {
     const [productDetails, setProductDetails] = useState('');
     const [productReviews, setProductReviews] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const router = useRouter();
+
+    useEffect(() => {
+        const role = localStorage.getItem('role');
+        if (role !== 'admin') {
+            router.push('/signin');
+        } else {
+            setIsAuthorized(true);
+        }
+    }, [router]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+        setError('');
+
         const response = await fetch('/api/reviews', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
             },
             body: JSON.stringify({
                 title: title.trim(),
@@ -36,10 +50,15 @@ const NewReviewPage: React.FC = () => {
             const newReview = await response.json();
             router.push(`/reviews/${newReview.slug}`);
         } else {
-            console.error('Failed to post review');
+            const errorData = await response.json();
+            setError(errorData.error || 'Failed to post review');
         }
         setLoading(false);
     };
+
+    if (!isAuthorized) {
+        return null; // Render nothing while checking authorization
+    }
 
     return (
         <Layout>
@@ -105,6 +124,7 @@ const NewReviewPage: React.FC = () => {
                             required
                         />
                     </label>
+                    {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
                     <button type="submit" className={styles.submitButton} disabled={loading}>
                         {loading ? 'Posting...' : 'Post Review'}
                     </button>
