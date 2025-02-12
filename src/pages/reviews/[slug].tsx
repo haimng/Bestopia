@@ -78,7 +78,46 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                 "@type": "Offer",
                 "url": product.product_page,
                 "priceCurrency": "USD",
-                "price": "0.00"
+                "price": "0.00",
+                "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingRate": {
+                        "@type": "MonetaryAmount",
+                        "value": "0.00",
+                        "currency": "USD"
+                    },
+                    "deliveryTime": {
+                        "@type": "ShippingDeliveryTime",
+                        "businessDays": {
+                            "@type": "OpeningHoursSpecification",
+                            "dayOfWeek": [
+                                "Monday",
+                                "Tuesday",
+                                "Wednesday",
+                                "Thursday",
+                                "Friday",
+                                "Saturday",
+                                "Sunday"
+                            ],
+                            "opens": "00:00",
+                            "closes": "23:59"
+                        },
+                        "handlingTime": {
+                            "@type": "QuantitativeValue",
+                            "minValue": 1,
+                            "maxValue": 2,
+                            "unitCode": "DAY"
+                        },
+                        "transitTime": {
+                            "@type": "QuantitativeValue",
+                            "minValue": 3,
+                            "maxValue": 5,
+                            "unitCode": "DAY"
+                        }
+                    }
+                },
+                "hasMerchantReturnPolicy": true,
+                "availability": "https://schema.org/InStock"
             },
             "aggregateRating": {
                 "@type": "AggregateRating",
