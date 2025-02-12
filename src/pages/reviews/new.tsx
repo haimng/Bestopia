@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import styles from '../../styles/NewReview.module.css';
+import { apiPost } from '../../utils/api';
 
 const NewReviewPage: React.FC = () => {
     const [title, setTitle] = useState('');
@@ -30,30 +31,21 @@ const NewReviewPage: React.FC = () => {
         setLoading(true);
         setError('');
 
-        const response = await fetch('/api/reviews', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: JSON.stringify({
+        try {
+            const newReview = await apiPost('/reviews', {
                 title: title.trim(),
                 subtitle: subtitle.trim(),
                 introduction: introduction.trim(),
                 coverPhoto: coverPhoto.trim(),
                 productDetails: productDetails.trim(),
                 productReviews: productReviews.trim(),
-            }),
-        });
-
-        if (response.ok) {
-            const newReview = await response.json();
+            });
             router.push(`/reviews/${newReview.slug}`);
-        } else {
-            const errorData = await response.json();
-            setError(errorData.error || 'Failed to post review');
+        } catch (error: any) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     if (!isAuthorized) {

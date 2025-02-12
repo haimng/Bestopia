@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Home.module.css';
 import { GetServerSideProps } from 'next';
@@ -15,9 +15,19 @@ type ReviewsPageProps = {
 
 const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentPage }) => {
   const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const role = localStorage.getItem('role');
+    setIsAdmin(role === 'admin');
+  }, []);
 
   const handlePageChange = (page: number) => {
     router.push(`/reviews?page=${page}`);
+  };
+
+  const handleNewReview = () => {
+    router.push('/reviews/new');
   };
 
   return (
@@ -25,6 +35,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
       <div className={styles.container}>
         <header className={styles.header}>
           <h1 className={styles.title}>All Reviews</h1>
+          {isAdmin && <button className={styles.newButton} onClick={handleNewReview}>New</button>}
         </header>
         <main className={styles.main}>
           <section className={styles.reviews}>
