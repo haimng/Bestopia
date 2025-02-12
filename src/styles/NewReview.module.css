@@ -54,6 +54,10 @@
     text-align: center; /* Center the error message */
 }
 
+.imageHeight {
+    height: 150px;
+}
+
 /* Media query for mobile devices */
 @media (max-width: 600px) {
     .container {
