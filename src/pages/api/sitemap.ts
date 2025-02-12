@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
                     ${slugs.map((slug: string) => `
                         <url>
-                            <loc>${DOMAIN}/reviews/${slug}</loc> <!-- Update this line -->
+                            <loc>${DOMAIN}/reviews/${slug}</loc>
                             <changefreq>weekly</changefreq>
                         </url>
                     `).join('')}
