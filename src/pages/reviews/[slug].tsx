@@ -59,6 +59,10 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
     const firstReviewer = products.length > 0 && products[0].reviews.length > 0 ? products[0].reviews[0].display_name : 'Emily Johnson';
     const shareUrl = `${DOMAIN}/reviews/${review.slug}`;
 
+    const priceValidUntil = new Date();
+    priceValidUntil.setMonth(priceValidUntil.getMonth() + 3);
+    const priceValidUntilString = priceValidUntil.toISOString().split('T')[0];
+
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "Review",
@@ -79,6 +83,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                 "url": product.product_page,
                 "priceCurrency": "USD",
                 "price": "0.00",
+                "priceValidUntil": priceValidUntilString,
                 "shippingDetails": {
                     "@type": "OfferShippingDetails",
                     "shippingRate": {
