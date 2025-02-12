@@ -12,19 +12,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
+        let userId;
         try {
             const decoded: any = jwt.verify(token, JWT_SECRET_KEY);
-            if (decoded.role !== 'admin') {
-                return res.status(403).json({ error: 'Forbidden' });
-            }
+            userId = decoded.userId;
         } catch (error) {
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
-        const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
-
         const client = await pool.connect();
         try {
+            const userResult = await client.query('SELECT role FROM users WHERE id = $1', [userId]);
+            const user = userResult.rows[0];
+
+            if (!user || user.role !== 'admin') {
+                return res.status(403).json({ error: 'Forbidden' });
+            }
+
+            const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
+
             await client.query('BEGIN');
 
             const lines = productDetails.trim().split('\n');
