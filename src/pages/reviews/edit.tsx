@@ -86,7 +86,7 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
             const updatedReview = await apiPut(`/reviews/${editableReview.id}`, editableReview);
             setEditableReview(updatedReview);
         } catch (error) {
-            console.error('Failed to update review:', error);
+            console.error(error);
             setReviewError('Failed to update review');
         } finally {
             setLoadingReview(false);
@@ -103,7 +103,7 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                 setEditableProducts(editableProducts.map(p => p.id === productId ? updatedProduct : p));
             }
         } catch (error) {
-            console.error('Failed to update product:', error);
+            console.error(error);
             setProductErrors((prevErrors) => ({ ...prevErrors, [productId]: 'Failed to update product' }));
         } finally {
             setLoadingProduct(null);
