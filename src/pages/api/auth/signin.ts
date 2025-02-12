@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ error: 'Invalid email or password' });
       }
 
-      const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET_KEY, { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET_KEY, { expiresIn: '1y' });
 
       res.status(200).json({ token, role: user.role });
     } catch (error: any) {
