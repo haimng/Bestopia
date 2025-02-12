@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/Navbar.module.css';
 import { useRouter } from 'next/router';
+import { isSignedIn } from '../utils/auth';
 
 const Navbar: React.FC = () => {
-    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [signedIn, setSignedIn] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsSignedIn(!!token);
+        setSignedIn(isSignedIn());
     }, []);
 
     const handleSignOut = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('role'); // Remove role from localStorage
-        setIsSignedIn(false);
+        setSignedIn(false);
         router.push('/signin');
     };
 
@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
                         <img src="/bestopia_logo.png" alt="Bestopia Logo" />
                     </div>
                 </Link>
-                {isSignedIn && (
+                {signedIn && (
                     <button className={styles.signOutButton} onClick={handleSignOut}>Sign Out</button>
                 )}
             </div>

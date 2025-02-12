@@ -6,6 +6,7 @@ import { Review } from '../../types';
 import { getPagedReviews } from '../../utils/db'; // Ensure this import is correct
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { isAdmin } from '../../utils/auth';
 
 type ReviewsPageProps = {
   reviews: Review[];
@@ -15,11 +16,10 @@ type ReviewsPageProps = {
 
 const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentPage }) => {
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdminUser, setIsAdminUser] = useState(false);
 
   useEffect(() => {
-    const role = localStorage.getItem('role');
-    setIsAdmin(role === 'admin');
+    setIsAdminUser(isAdmin());
   }, []);
 
   const handlePageChange = (page: number) => {
@@ -35,7 +35,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
       <div className={styles.container}>
         <header className={styles.header}>
           <h1 className={styles.title}>All Reviews</h1>
-          {isAdmin && <button className={styles.newButton} onClick={handleNewReview}>New</button>}
+          {isAdminUser && <button className={styles.newButton} onClick={handleNewReview}>New</button>}
         </header>
         <main className={styles.main}>
           <section className={styles.reviews}>

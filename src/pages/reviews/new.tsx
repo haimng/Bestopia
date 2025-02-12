@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import styles from '../../styles/NewReview.module.css';
 import { apiPost } from '../../utils/api';
+import { isAdmin } from '../../utils/auth';
 
 const NewReviewPage: React.FC = () => {
     const [title, setTitle] = useState('');
@@ -18,8 +19,7 @@ const NewReviewPage: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const role = localStorage.getItem('role');
-        if (role !== 'admin') {
+        if (!isAdmin()) {
             router.push('/signin');
         } else {
             setIsAuthorized(true);
