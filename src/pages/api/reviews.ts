@@ -1,36 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import pool from '../../utils/db';
 import slugify from 'slugify';
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || '';
+import { authenticateAndAuthorizeAdmin } from '../../utils_server/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({ error: 'Unauthorized' });
-        }
-
-        let userId;
+        let client;
         try {
-            const decoded: any = jwt.verify(token, JWT_SECRET_KEY);
-            userId = decoded.userId;
+            const authResult = await authenticateAndAuthorizeAdmin(req, res);
+            if (!authResult) return; // Response already sent in case of error
+            client = authResult.client;
         } catch (error) {
-            return res.status(401).json({ error: 'Unauthorized' });
+            const errorMessage = (error instanceof Error) ? error.message : 'Unknown error';
+            return res.status(500).json({ error: 'Internal server error', details: errorMessage });
         }
 
-        const client = await pool.connect();
+        const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
+
         try {
-            const userResult = await client.query('SELECT role FROM users WHERE id = $1', [userId]);
-            const user = userResult.rows[0];
-
-            if (!user || user.role !== 'admin') {
-                return res.status(403).json({ error: 'Forbidden' });
-            }
-
-            const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
-
             await client.query('BEGIN');
 
             const lines = productDetails.trim().split('\n');

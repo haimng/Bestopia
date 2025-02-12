@@ -14,6 +14,9 @@ import {
     TwitterIcon,
     LinkedinIcon
 } from 'react-share';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { isAdmin } from '../../utils/auth';
 
 interface Product {
     id: number;
@@ -55,6 +58,13 @@ interface ReviewPageProps {
 }
 
 const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews }) => {
+    const router = useRouter();
+    const [isAdminUser, setIsAdminUser] = useState(false);
+
+    useEffect(() => {
+        setIsAdminUser(isAdmin());
+    }, []);
+
     const firstProductImageUrl = products.length > 0 ? products[0].image_url : '';
     const firstReviewer = products.length > 0 && products[0].reviews.length > 0 ? products[0].reviews[0].display_name : 'Emily Johnson';
     const shareUrl = `${DOMAIN}/reviews/${review.slug}`;
@@ -153,6 +163,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                 </script>
             </Head>
             <div className={styles.container}>
+                {isAdminUser && (
+                    <button className={styles.editButton} onClick={() => router.push(`/reviews/edit?id=${review.id}`)}>
+                        Edit
+                    </button>
+                )}
                 <h1 className={styles.title}>{review.title}</h1>
                 <h2 className={styles.subtitle}>{review.subtitle}</h2>
                 {review.cover_photo && review.cover_photo !== firstProductImageUrl && (
