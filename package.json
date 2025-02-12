@@ -19,7 +19,9 @@
   "dependencies": {
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
+    "jsonwebtoken": "^9.0.2",
     "next": "latest",
     "openai": "^4.83.0",
     "pg": "^8.13.1",
@@ -29,7 +31,9 @@
     "slugify": "^1.6.6"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/dotenv": "^8.2.3",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/mysql": "^2.15.26",
     "@types/node": "22.13.1",
     "@types/pg": "^8.11.11",
