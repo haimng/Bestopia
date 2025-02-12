@@ -13,6 +13,7 @@
 .form {
     display: flex;
     flex-direction: column;
+    padding-right: 10px; /* Add padding-right to the form */
 }
 
 .label {
@@ -27,6 +28,7 @@
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px; /* Ensure font size is 16px or larger to prevent zooming */
 }
 
 .submitButton {
@@ -46,4 +48,16 @@
 .error {
     color: red;
     margin-bottom: 20px;
+    text-align: center; /* Center the error message */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .input {
+        font-size: 16px; /* Ensure font size is 16px or larger to prevent zooming */
+    }
 }
