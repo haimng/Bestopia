@@ -36,6 +36,12 @@
     font-size: 0.75rem; /* Make the footer text size smaller */
 }
 
+.youtubeLogo {
+    width: auto;
+    height: 25px;    
+    vertical-align: middle;
+}
+
 .layout h1, .layout h2, .layout h3, .layout h4, .layout h5, .layout h6 {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: bold;
