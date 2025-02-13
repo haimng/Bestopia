@@ -184,7 +184,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                 <div className={styles.reviewList}>
                     {products.map((product) => (
                         <div key={product.id} className={styles.reviewItem}>
-                            <img src={product.image_url} alt={product.name} className={styles.reviewImage} />
+                            <img 
+                                src={product.image_url} 
+                                alt={product.name} 
+                                className={`${styles.reviewImage} ${product.image_url.includes('amazon.com') ? styles.amazonImage : ''}`} 
+                            />
                             <h2 className={styles.reviewTitle}>{product.name}</h2>
                             <p className={styles.reviewContent}>
                                 {product.description.split('\n').map((line, index) => (

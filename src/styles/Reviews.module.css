@@ -200,3 +200,17 @@
 .editButton:hover {
   background-color: #f0f0f0; /* Lighter shade for hover */
 }
+
+.amazonImage {
+    display: block;
+    width: 90%;
+    height: auto;
+    margin: 20px auto;
+}
+
+@media (min-width: 768px) {
+    .amazonImage {
+        width: 66%;
+        margin: 40px auto;
+    }
+}
