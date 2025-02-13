@@ -17,10 +17,12 @@
   "author": "Hai M Nguyen",
   "license": "MIT",
   "dependencies": {
+    "@types/jsdom": "^21.1.7",
     "@vercel/analytics": "^1.4.1",
     "@vercel/speed-insights": "^1.1.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
+    "jsdom": "^26.0.0",
     "jsonwebtoken": "^9.0.2",
     "next": "latest",
     "openai": "^4.83.0",

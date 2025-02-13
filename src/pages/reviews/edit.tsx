@@ -7,7 +7,7 @@ import Layout from '../../components/Layout';
 import styles from '../../styles/NewReview.module.css';
 import { getReviewById, getProductsByReviewId } from '../../utils/db';
 import { isAdmin } from '../../utils/auth';
-import { apiPut } from '../../utils/api';
+import { apiPut, apiPost } from '../../utils/api';
 
 interface Product {
     id: number;
@@ -110,6 +110,23 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
         }
     };
 
+    const handleCrawlProduct = async (productId: number) => {
+        setLoadingProduct(productId);
+        setProductErrors((prevErrors) => ({ ...prevErrors, [productId]: '' }));
+        try {
+            const product = editableProducts.find(product => product.id === productId);
+            if (product) {
+                const updatedProduct = await apiPut(`/products/${product.id}`, { ...product, crawl_product: true });
+                setEditableProducts(editableProducts.map(p => p.id === productId ? updatedProduct : p));
+            }
+        } catch (error) {
+            console.error(error);
+            setProductErrors((prevErrors) => ({ ...prevErrors, [productId]: 'Failed to crawl product' }));
+        } finally {
+            setLoadingProduct(null);
+        }
+    };
+
     return (
         <Layout>
             <Head>
@@ -162,7 +179,7 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                     />                    
                 </div>
                 {reviewError && <p className={styles.error}>{reviewError}</p>}
-                <button onClick={handleSaveReview} className={styles.submitButton} disabled={loadingReview}>
+                <button onClick={handleSaveReview} className={`${styles.submitButton} ${styles.smallButton}`} disabled={loadingReview}>
                     {loadingReview ? 'Saving...' : 'Save Review'}
                 </button>
                 <br />                
@@ -214,9 +231,14 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                             />                            
                         </div>
                         {productErrors[product.id] && <p className={styles.error}>{productErrors[product.id]}</p>}
-                        <button onClick={() => handleSaveProduct(product.id)} className={styles.submitButton} disabled={loadingProduct === product.id}>
-                            {loadingProduct === product.id ? 'Saving...' : 'Save Product'}
-                        </button>
+                        <div className={styles.buttonGroup}>
+                            <button onClick={() => handleSaveProduct(product.id)} className={`${styles.submitButton} ${styles.smallButton}`} disabled={loadingProduct === product.id}>
+                                {loadingProduct === product.id ? 'Saving...' : 'Save Product'}
+                            </button>
+                            <button onClick={() => handleCrawlProduct(product.id)} className={`${styles.submitButton} ${styles.smallButton}`} disabled={loadingProduct === product.id}>
+                                {loadingProduct === product.id ? 'Crawling...' : 'Crawl Product'}
+                            </button>
+                        </div>
                         <br />                        
                         <br />
                         <br />

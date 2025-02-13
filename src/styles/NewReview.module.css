@@ -48,6 +48,12 @@
     background-color: #005bb5;
 }
 
+.smallButton {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+    margin-right: 10px; /* Add margin-right to create space between buttons */
+}
+
 .error {
     color: red;
     margin-bottom: 20px;
