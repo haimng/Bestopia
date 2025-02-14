@@ -184,6 +184,7 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                 </button>
                 <br />                
                 <br />
+                <br />
                 <h2 className={styles.subtitle}>Products</h2>
                 {editableProducts.map((product) => (
                     <div key={product.id} className={styles.productForm}>
@@ -243,7 +244,10 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                         <br />
                         <br />
                     </div>
-                ))}
+                ))}                
+                <Link href="/reviews/new" legacyBehavior>
+                    <a className={`${styles.borderButton}`}>New</a>
+                </Link>
             </div>
         </Layout>
     );
