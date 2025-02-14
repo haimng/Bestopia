@@ -26,8 +26,7 @@ const NewReviewPage: React.FC = () => {
         }
     }, [router]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handlePostReview = async () => {
         setLoading(true);
         setError('');
 
@@ -59,7 +58,7 @@ const NewReviewPage: React.FC = () => {
             </Head>
             <div className={styles.container}>
                 <h1 className={styles.title}>Post a New Review</h1>
-                <form onSubmit={handleSubmit} className={styles.form}>
+                <div className={styles.form}>
                     <label className={styles.label}>
                         Title:
                         <input
@@ -117,10 +116,10 @@ const NewReviewPage: React.FC = () => {
                         />
                     </label>
                     {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
-                    <button type="submit" className={styles.submitButton} disabled={loading}>
+                    <button onClick={handlePostReview} className={styles.submitButton} disabled={loading}>
                         {loading ? 'Posting...' : 'Post Review'}
                     </button>
-                </form>
+                </div>
             </div>
         </Layout>
     );
