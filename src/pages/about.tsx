@@ -1,10 +1,15 @@
 import React from 'react';
+import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/About.module.css';
 
 const About: React.FC = () => {
     return (
         <Layout>
+            <Head>
+                <title>About Us - Bestopia</title>
+                <meta name="description" content="Learn more about Bestopia, our mission, and our team. Discover how we provide honest and reliable reviews to help you make informed choices." />
+            </Head>
             <div className={styles.container}>
                 <h1 className={styles.title}>About Bestopia</h1>
                 <img src="/img/company_photo1.jpg" alt="Company Photo" className={styles.companyPhoto} />

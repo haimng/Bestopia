@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Home.module.css';
 import { GetServerSideProps } from 'next';
@@ -32,6 +33,10 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
 
   return (
     <Layout>
+      <Head>
+        <title>All Reviews - Bestopia</title>
+        <meta name="description" content="Read all the latest reviews on Bestopia. Stay updated with the newest insights and detailed analyses." />
+      </Head>
       <div className={styles.container}>
         <header className={styles.header}>
           <h1 className={styles.title}>All Reviews</h1>
