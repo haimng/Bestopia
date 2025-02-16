@@ -4,6 +4,34 @@ import { authenticateAndAuthorizeAdmin } from '../../../utils_server/auth';
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 import { JSDOM } from 'jsdom';
+import sizeOf from 'image-size';
+
+async function getImageUrlFromSrcset(srcset: string) {
+    const srcsetParts = srcset.split(',').map(part => part.trim());
+    let selectedImageUrl = null;
+    let selectedWidth = 0;
+    let default3xImageUrl = null;
+
+    for (const part of srcsetParts) {
+        const [url, descriptor] = part.split(' ');
+        const response = await fetch(url);
+        const buffer = await response.buffer();
+        const dimensions = sizeOf(buffer);
+        const width = dimensions.width;
+        const multiplier = parseFloat(descriptor.replace('x', ''));        
+
+        if (multiplier === 3) {
+            default3xImageUrl = url;
+        }
+
+        if (width !== undefined && ((width >= 500 && width <= 700) || (multiplier === 3 && width < 500) || (!selectedImageUrl && width > 500))) {
+            selectedImageUrl = url;
+            selectedWidth = width;
+        }
+    }
+
+    return selectedImageUrl || default3xImageUrl;
+}
 
 async function crawlProduct(product: any) {
     const { name } = product;
@@ -56,11 +84,7 @@ async function crawlProduct(product: any) {
         const srcset = imageElement ? imageElement.getAttribute('srcset') : null;
 
         if (srcset) {
-            const srcsetParts = srcset.split(',').map(part => part.trim());
-            const srcset2_5x = srcsetParts.find(part => part.endsWith('2.5x'));
-            if (srcset2_5x) {
-                image_url = srcset2_5x.split(' ')[0];
-            }
+            image_url = await getImageUrlFromSrcset(srcset);
         }
 
         let product_page = linkElement ? `https://www.amazon.com${linkElement.getAttribute('href')}` : null;
