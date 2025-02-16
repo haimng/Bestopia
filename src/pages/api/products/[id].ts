@@ -28,13 +28,13 @@ async function crawlProduct(product: any) {
                 "sec-ch-ua": "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
                 "sec-ch-ua-mobile": "?0",
                 "sec-ch-ua-platform": "\"macOS\"",
-                "sec-ch-viewport-width": "1177",
+                "sec-ch-viewport-width": "1700",
                 "sec-fetch-dest": "document",
                 "sec-fetch-mode": "navigate",
                 "sec-fetch-site": "same-origin",
                 "sec-fetch-user": "?1",
                 "upgrade-insecure-requests": "1",
-                "viewport-width": "1177"
+                "viewport-width": "1700"
             }
         });
         if (!response.ok) {
