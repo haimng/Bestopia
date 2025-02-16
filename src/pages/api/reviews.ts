@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import pool from '../../utils/db';
 import slugify from 'slugify';
 import { authenticateAndAuthorizeAdmin } from '../../utils_server/auth';
 import { crawlProduct } from '../../utils_server/crawler';
@@ -91,23 +90,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     );
                 }
 
-                // Update product with crawled data
-                try {
-                    const crawledData = await crawlProduct(product);
-                    await client.query(
-                        'UPDATE products SET image_url = $1, product_page = $2 WHERE id = $3',
-                        [crawledData.image_url, crawledData.product_page, productId]
-                    );
-
-                    // Update review cover photo if it is empty
-                    if (!coverPhoto.trim() && i === 0) {
+                // Update product with crawled data for the first 4 products only
+                if (i < 4) {
+                    try {
+                        const crawledData = await crawlProduct(product);
                         await client.query(
-                            'UPDATE reviews SET cover_photo = $1 WHERE id = $2',
-                            [crawledData.image_url, reviewId]
+                            'UPDATE products SET image_url = $1, product_page = $2 WHERE id = $3',
+                            [crawledData.image_url, crawledData.product_page, productId]
                         );
+
+                        // Update review cover photo if it is empty
+                        if (!coverPhoto.trim() && i === 0) {
+                            await client.query(
+                                'UPDATE reviews SET cover_photo = $1 WHERE id = $2',
+                                [crawledData.image_url, reviewId]
+                            );
+                        }
+                    } catch (error) {
+                        console.error(`Error crawling product ${product.name}:`, error);
                     }
-                } catch (error) {
-                    console.error(`Error crawling product ${product.name}:`, error);
                 }
             }
 
