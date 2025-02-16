@@ -7,6 +7,8 @@ import { crawlProduct } from '../../utils_server/crawler';
 const womanReviewerIds = [1, 2, 3, 6, 7, 8];
 const manReviewerIds = [4, 5, 9, 10];
 
+export const maxDuration = 60;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         let client;
@@ -89,26 +91,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     );
                 }
 
-                // Update product with crawled data in the background
-                (async () => {
-                    try {
-                        const crawledData = await crawlProduct(product);
-                        await client.query(
-                            'UPDATE products SET image_url = $1, product_page = $2 WHERE id = $3',
-                            [crawledData.image_url, crawledData.product_page, productId]
-                        );
+                // Update product with crawled data
+                try {
+                    const crawledData = await crawlProduct(product);
+                    await client.query(
+                        'UPDATE products SET image_url = $1, product_page = $2 WHERE id = $3',
+                        [crawledData.image_url, crawledData.product_page, productId]
+                    );
 
-                        // Update review cover photo if it is empty
-                        if (!coverPhoto.trim() && i === 0) {
-                            await client.query(
-                                'UPDATE reviews SET cover_photo = $1 WHERE id = $2',
-                                [crawledData.image_url, reviewId]
-                            );
-                        }
-                    } catch (error) {
-                        console.error(`Error crawling product ${product.name}:`, error);
+                    // Update review cover photo if it is empty
+                    if (!coverPhoto.trim() && i === 0) {
+                        await client.query(
+                            'UPDATE reviews SET cover_photo = $1 WHERE id = $2',
+                            [crawledData.image_url, reviewId]
+                        );
                     }
-                })();
+                } catch (error) {
+                    console.error(`Error crawling product ${product.name}:`, error);
+                }
             }
 
             await client.query('COMMIT');
