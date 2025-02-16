@@ -55,6 +55,8 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
     const [loadingReview, setLoadingReview] = useState(false);
     const [loadingProduct, setLoadingProduct] = useState<number | null>(null);
     const [reviewError, setReviewError] = useState('');
+    const [imageDimensions, setImageDimensions] = useState<{ [key: number]: { width: number, height: number } }>({});
+    const [coverPhotoDimensions, setCoverPhotoDimensions] = useState<{ width: number, height: number } | null>(null);
     const [productErrors, setProductErrors] = useState<{ [key: number]: string }>({});
 
     useEffect(() => {
@@ -127,6 +129,19 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
         }
     };
 
+    const handleImageLoad = (productId: number, event: React.SyntheticEvent<HTMLImageElement>) => {
+        const img = event.currentTarget;
+        setImageDimensions(prev => ({
+            ...prev,
+            [productId]: { width: img.naturalWidth, height: img.naturalHeight }
+        }));
+    };
+
+    const handleCoverPhotoLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+        const img = event.currentTarget;
+        setCoverPhotoDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+    };
+
     return (
         <Layout>
             <Head>
@@ -169,7 +184,17 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Cover Photo URL:</label>
                     {editableReview.cover_photo && (
-                        <img src={editableReview.cover_photo} alt="Cover Photo" className={styles.editImagePreview} />
+                        <div>
+                            <span>
+                                {coverPhotoDimensions && `${coverPhotoDimensions.width}x${coverPhotoDimensions.height}`}
+                            </span>
+                            <img
+                                src={editableReview.cover_photo}
+                                alt="Cover Photo"
+                                className={styles.editImagePreview}
+                                onLoad={handleCoverPhotoLoad}
+                            />
+                        </div>
                     )}
                     <input
                         type="text"
@@ -208,8 +233,18 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Image URL:</label>
                             {product.image_url && (
-                                <img src={product.image_url} alt="Product Image" className={styles.editImagePreview} />
-                            )}
+                                <div>
+                                    <span>
+                                        {imageDimensions[product.id] && `${imageDimensions[product.id].width}x${imageDimensions[product.id].height}`}
+                                    </span>
+                                    <img
+                                        src={product.image_url}
+                                        alt="Product Image"
+                                        className={styles.editImagePreview}
+                                        onLoad={(e) => handleImageLoad(product.id, e)}
+                                    />                                    
+                                </div>
+                            )}                            
                             <input
                                 type="text"
                                 value={product.image_url}
