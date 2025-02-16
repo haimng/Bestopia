@@ -13,6 +13,7 @@ const NewReviewPage: React.FC = () => {
     const [coverPhoto, setCoverPhoto] = useState('');
     const [productDetails, setProductDetails] = useState('');
     const [productReviews, setProductReviews] = useState('');
+    const [reviewDetails, setReviewDetails] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -44,6 +45,19 @@ const NewReviewPage: React.FC = () => {
             setError(error.message);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleReviewDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value;
+        setReviewDetails(value);
+
+        const lines = value.trim().split('\n');
+        if (lines.length > 1) {
+            const [title, subtitle, introduction] = lines[1].split('\t').map((field: string) => field.trim());
+            setTitle(title || '');
+            setSubtitle(subtitle || '');
+            setIntroduction(introduction || '');
         }
     };
 
@@ -98,6 +112,14 @@ const NewReviewPage: React.FC = () => {
                         />
                     </label>
                     <label className={styles.label}>
+                        Review Details (TSV format: title	subtitle	introduction):
+                        <textarea
+                            value={reviewDetails}
+                            onChange={handleReviewDetailsChange}
+                            className={styles.textarea}
+                        />
+                    </label>
+                    <label className={styles.label}>
                         Product Details (TSV format: name	description	image_url	product_page):
                         <textarea
                             value={productDetails}
@@ -114,7 +136,7 @@ const NewReviewPage: React.FC = () => {
                             className={styles.textarea}
                             required
                         />
-                    </label>
+                    </label>                    
                     {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
                     <button onClick={handlePostReview} className={styles.submitButton} disabled={loading}>
                         {loading ? 'Posting...' : 'Post Review'}
