@@ -184,11 +184,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                 <div className={styles.reviewList}>
                     {products.map((product) => (
                         <div key={product.id} className={styles.reviewItem}>
-                            <img 
-                                src={product.image_url} 
-                                alt={product.name} 
-                                className={`${styles.reviewImage} ${product.image_url.includes('amazon.com') ? styles.amazonImage : ''}`} 
-                            />
+                            {product.image_url && (
+                                <img 
+                                    src={product.image_url} 
+                                    alt={product.name} 
+                                    className={`${styles.reviewImage} ${product.image_url.includes('amazon.com') ? styles.amazonImage : ''}`} 
+                                />
+                            )}
                             <h2 className={styles.reviewTitle}>{product.name}</h2>
                             <p className={styles.reviewContent}>
                                 {product.description.split('\n').map((line, index) => (
@@ -217,9 +219,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                                     </div>
                                 ))}
                             </div>
-                            <a href={product.product_page} target="_blank" rel="nofollow noopener noreferrer">
-                                <button className={styles.buyButton}>See Price</button>
-                            </a>
+                            {product.product_page && (
+                                <a href={product.product_page} target="_blank" rel="nofollow noopener noreferrer">
+                                    <button className={styles.buyButton}>See Price</button>
+                                </a>
+                            )}
                         </div>
                     ))}
                 </div>
