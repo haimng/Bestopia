@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             });
 
             const firstProductImageUrl = products.length > 0 ? products[0].image_url : null;
-            const finalCoverPhoto = coverPhoto.trim() || firstProductImageUrl;
+            const finalCoverPhoto = coverPhoto.trim() || firstProductImageUrl || '';
 
             const slug = slugify(title.trim(), { lower: true });
 
@@ -60,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const product = products[i];
                 const productResult = await client.query(
                     'INSERT INTO products (review_id, name, description, image_url, product_page) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-                    [reviewId, product.name, product.description, product.image_url, product.product_page]
+                    [reviewId, product.name, product.description, product.image_url || '', product.product_page || '']
                 );
 
                 const productId = productResult.rows[0].id;
