@@ -3,6 +3,8 @@ import { URLSearchParams } from 'url';
 import { JSDOM } from 'jsdom';
 import sizeOf from 'image-size';
 
+const CRAWLER_API_TOKEN = process.env.CRAWLER_API_TOKEN;
+
 export async function getImageUrlFromSrcset(srcset: string) {
     const srcsetParts = srcset.split(',').map(part => part.trim());
     let selectedImageUrl = null;
@@ -34,7 +36,7 @@ export async function crawlProduct(product: any) {
     const { name } = product;
     const params = new URLSearchParams({ k: name });
     const url = `https://www.amazon.com/s?${params.toString()}`;
-    const crawlerApiUrl = `https://api.crawlbase.com/?token=ALhEGfr3FUD0gwwN-9m3QQ&url=${encodeURIComponent(url)}`;
+    const crawlerApiUrl = `https://api.crawlbase.com/?token=${CRAWLER_API_TOKEN}&url=${encodeURIComponent(url)}`;
 
     try {
         const response = await fetch(crawlerApiUrl);
