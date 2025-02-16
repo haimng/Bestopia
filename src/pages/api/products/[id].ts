@@ -57,9 +57,9 @@ async function crawlProduct(product: any) {
 
         if (srcset) {
             const srcsetParts = srcset.split(',').map(part => part.trim());
-            const srcset3x = srcsetParts.find(part => part.endsWith('3x'));
-            if (srcset3x) {
-                image_url = srcset3x.split(' ')[0];
+            const srcset2x = srcsetParts.find(part => part.endsWith('2x'));
+            if (srcset2x) {
+                image_url = srcset2x.split(' ')[0];
             }
         }
 
