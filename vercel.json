@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/products/[id].ts": {
-      "maxDuration": 20
-    }
-  }
-}

@@ -83,6 +83,8 @@ async function crawlProduct(product: any) {
     }
 }
 
+export const maxDuration = 20;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'PUT') {
         let client;
