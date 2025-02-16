@@ -14,6 +14,7 @@ const NewReviewPage: React.FC = () => {
     const [productDetails, setProductDetails] = useState('');
     const [productReviews, setProductReviews] = useState('');
     const [reviewDetails, setReviewDetails] = useState('');
+    const [gender, setGender] = useState('all');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -39,6 +40,7 @@ const NewReviewPage: React.FC = () => {
                 coverPhoto: coverPhoto.trim(),
                 productDetails: productDetails.trim(),
                 productReviews: productReviews.trim(),
+                gender: gender
             });
             router.push(`/reviews/${newReview.slug}`);
         } catch (error: any) {
@@ -136,7 +138,15 @@ const NewReviewPage: React.FC = () => {
                             className={styles.textarea}
                             required
                         />
-                    </label>                    
+                    </label>
+                    <label className={styles.label}>
+                        Gender:
+                        <select value={gender} onChange={(e) => setGender(e.target.value)} className={styles.select}>
+                            <option value="all">All gender</option>
+                            <option value="woman">Woman only</option>
+                            <option value="man">Man only</option>
+                        </select>
+                    </label>
                     {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
                     <button onClick={handlePostReview} className={styles.submitButton} disabled={loading}>
                         {loading ? 'Posting...' : 'Post Review'}

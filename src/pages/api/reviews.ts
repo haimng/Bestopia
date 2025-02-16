@@ -4,6 +4,9 @@ import slugify from 'slugify';
 import { authenticateAndAuthorizeAdmin } from '../../utils_server/auth';
 import { crawlProduct } from '../../utils_server/crawler';
 
+const womanReviewerIds = [1, 2, 3, 6, 7, 8];
+const manReviewerIds = [4, 5, 9, 10];
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         let client;
@@ -16,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(500).json({ error: 'Internal server error', details: errorMessage });
         }
 
-        const { title, subtitle, introduction, coverPhoto, productDetails, productReviews } = req.body;
+        const { title, subtitle, introduction, coverPhoto, productDetails, productReviews, gender } = req.body;
 
         try {
             await client.query('BEGIN');
@@ -68,7 +71,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 const productReview = productReviewsArray[i];
 
                 if (productReview) {
-                    const userId = Math.floor(Math.random() * 10) + 1; // Random integer from 1 to 10
+                    let userId;
+                    if (gender === 'woman') {
+                        userId = womanReviewerIds[Math.floor(Math.random() * womanReviewerIds.length)];
+                    } else if (gender === 'man') {
+                        userId = manReviewerIds[Math.floor(Math.random() * manReviewerIds.length)];
+                    } else {
+                        const allReviewerIds = [...womanReviewerIds, ...manReviewerIds];
+                        userId = allReviewerIds[Math.floor(Math.random() * allReviewerIds.length)];
+                    }
+
                     const rating = i < 2 ? '5.0' : (baseRating - Math.random() * 0.1).toFixed(1); // First two ratings are 5.0, then decrement slightly
                     if (i >= 2) baseRating -= 0.1; // Ensure next rating is lower
                     await client.query(
