@@ -220,9 +220,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                                 ))}
                             </div>
                             {product.product_page && (
-                                <a href={product.product_page} target="_blank" rel="nofollow noopener noreferrer">
-                                    <button className={styles.buyButton}>See Price</button>
-                                </a>
+                              <a href={`${product.product_page}?tag=bestopia-20&linkCode=ll1`} target="_blank" rel="nofollow noopener noreferrer">
+                                  <button className={styles.buyButton}>See Price</button>
+                              </a>
                             )}
                             <p className={styles.amazonDisclosure}>
                               <small>#ad: Amazon.com</small>
