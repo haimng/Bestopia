@@ -224,6 +224,9 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                                     <button className={styles.buyButton}>See Price</button>
                                 </a>
                             )}
+                            <p className={styles.amazonDisclosure}>
+                              <small>#ad: Amazon.com</small>
+                            </p>
                         </div>
                     ))}
                 </div>

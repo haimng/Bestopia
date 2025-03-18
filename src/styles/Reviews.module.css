@@ -214,3 +214,9 @@
         margin: 40px auto;
     }
 }
+
+.amazonDisclosure {
+    color: gray;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
