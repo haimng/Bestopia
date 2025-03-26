@@ -17,11 +17,13 @@ CREATE TABLE reviews (
   subtitle VARCHAR(255) NOT NULL,
   introduction TEXT NOT NULL,
   cover_photo VARCHAR(255) DEFAULT NULL,  
+  tags VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE UNIQUE INDEX idx_reviews_slug ON reviews(slug);
+CREATE INDEX idx_reviews_tags ON reviews (tags);
 
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
