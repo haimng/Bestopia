@@ -63,6 +63,15 @@ const NewReviewPage: React.FC = () => {
         }
     };
 
+    const handlePaste = async (setter: React.Dispatch<React.SetStateAction<string>>) => {
+        try {
+            const text = await navigator.clipboard.readText();
+            setter(text);
+        } catch (error) {
+            console.error('Failed to read clipboard contents:', error);
+        }
+    };
+
     if (!isAuthorized) {
         return null; // Render nothing while checking authorization
     }
@@ -115,6 +124,13 @@ const NewReviewPage: React.FC = () => {
                     </label>
                     <label className={styles.label}>
                         Review Details (TSV format: title	subtitle	introduction):
+                        <button
+                            type="button"
+                            onClick={() => handlePaste(setReviewDetails)}
+                            className={styles.pasteButton}
+                        >
+                            Paste
+                        </button>
                         <textarea
                             value={reviewDetails}
                             onChange={handleReviewDetailsChange}
@@ -123,6 +139,13 @@ const NewReviewPage: React.FC = () => {
                     </label>
                     <label className={styles.label}>
                         Product Details (TSV format: name	description	image_url	product_page):
+                        <button
+                            type="button"
+                            onClick={() => handlePaste(setProductDetails)}
+                            className={styles.pasteButton}
+                        >
+                            Paste
+                        </button>
                         <textarea
                             value={productDetails}
                             onChange={(e) => setProductDetails(e.target.value)}
@@ -132,6 +155,13 @@ const NewReviewPage: React.FC = () => {
                     </label>
                     <label className={styles.label}>
                         Product Reviews (TSV format: rating	review_text	user_id):
+                        <button
+                            type="button"
+                            onClick={() => handlePaste(setProductReviews)}
+                            className={styles.pasteButton}
+                        >
+                            Paste
+                        </button>
                         <textarea
                             value={productReviews}
                             onChange={(e) => setProductReviews(e.target.value)}

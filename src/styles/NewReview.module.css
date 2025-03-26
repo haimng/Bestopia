@@ -90,6 +90,27 @@
     margin-top: 20px;
 }
 
+.inputGroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pasteButton {
+    padding: 8px 12px;
+    margin-left: 10px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pasteButton:hover {
+    background-color: #005bb5;
+}
+
 /* Media query for mobile devices */
 @media (max-width: 600px) {
     .container {
