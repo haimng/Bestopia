@@ -18,7 +18,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     <url>
                         <loc>${DOMAIN}/reviews</loc>
                         <changefreq>daily</changefreq>
-                    </url>                  
+                    </url>
+                    <url>
+                        <loc>${DOMAIN}/t/blippi</loc>
+                        <changefreq>daily</changefreq>
+                    </url>
+                    <url>
+                        <loc>${DOMAIN}/t/flashcard</loc>
+                        <changefreq>daily</changefreq>
+                    </url>
                 </urlset>`;
             }
             else {              
