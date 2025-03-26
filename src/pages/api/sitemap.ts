@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         <changefreq>daily</changefreq>
                     </url>
                     <url>
-                        <loc>${DOMAIN}/t/flashcard</loc>
+                        <loc>${DOMAIN}/t/flashcards</loc>
                         <changefreq>daily</changefreq>
                     </url>
                 </urlset>`;
