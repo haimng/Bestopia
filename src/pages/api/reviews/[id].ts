@@ -15,18 +15,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         const { id } = req.query;
-        const { title, subtitle, introduction, cover_photo } = req.body;
+        const { title, subtitle, introduction, cover_photo, tags } = req.body;
 
         try {
             await client.query('BEGIN');
 
             const updateReviewQuery = `
                 UPDATE reviews
-                SET title = $1, subtitle = $2, introduction = $3, cover_photo = $4, updated_at = NOW()
-                WHERE id = $5
+                SET title = $1, subtitle = $2, introduction = $3, cover_photo = $4, tags = $5, updated_at = NOW()
+                WHERE id = $6
                 RETURNING *
             `;
-            const updateReviewValues = [title, subtitle, introduction, cover_photo, id];
+            const updateReviewValues = [title, subtitle, introduction, cover_photo, tags, id];
             const reviewResult = await client.query(updateReviewQuery, updateReviewValues);
 
             await client.query('COMMIT');

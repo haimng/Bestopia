@@ -12,7 +12,8 @@ dotenv.config();
 
 interface Review {
     id: number;
-    title: string;    
+    title: string;
+    tags?: string; // Add the tags field
     // Add other fields as necessary
 }
 
@@ -84,5 +85,12 @@ export const getRandomReviews = async (limit: number = 10): Promise<Review[]> =>
     updated_at: review.updated_at.toISOString(), // Convert Date to string
   })) as Review[];
 };
+
+export async function getReviewsByTag(tag: string) {
+    return await connection.query(
+        'SELECT id, title, slug, cover_photo, subtitle, introduction FROM reviews WHERE tags LIKE $1',
+        [`%${tag}%`]
+    );
+}
 
 export default connection;

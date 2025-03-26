@@ -40,6 +40,7 @@ interface Review {
     created_at: string;
     updated_at: string;
     cover_photo: string;
+    tags?: string; // Added the 'tags' property
 }
 
 interface EditReviewPageProps {
@@ -179,6 +180,15 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                         value={editableReview.introduction}
                         onChange={(e) => handleReviewChange('introduction', e.target.value)}
                         className={styles.textarea}
+                    />
+                </div>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Tags (comma-separated):</label>
+                    <input
+                        type="text"
+                        value={editableReview.tags || ''}
+                        onChange={(e) => handleReviewChange('tags', e.target.value)}
+                        className={styles.input}
                     />
                 </div>
                 <div className={styles.formGroup}>
