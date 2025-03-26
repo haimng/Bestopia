@@ -50,8 +50,8 @@ const NewReviewPage: React.FC = () => {
         }
     };
 
-    const handleReviewDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value;
+    const handleReviewDetailsChange = (e: React.ChangeEvent<HTMLTextAreaElement> | string) => {
+        const value = typeof e === 'string' ? e : e.target.value;
         setReviewDetails(value);
 
         const lines = value.trim().split('\n');
@@ -63,10 +63,10 @@ const NewReviewPage: React.FC = () => {
         }
     };
 
-    const handlePaste = async (setter: React.Dispatch<React.SetStateAction<string>>) => {
+    const handlePaste = async (callback: (text: string) => void) => {
         try {
             const text = await navigator.clipboard.readText();
-            setter(text);
+            callback(text);            
         } catch (error) {
             console.error('Failed to read clipboard contents:', error);
         }
@@ -126,7 +126,7 @@ const NewReviewPage: React.FC = () => {
                         Review Details (TSV format: title	subtitle	introduction):
                         <button
                             type="button"
-                            onClick={() => handlePaste(setReviewDetails)}
+                            onClick={() => handlePaste(handleReviewDetailsChange)}
                             className={styles.pasteButton}
                         >
                             Paste
