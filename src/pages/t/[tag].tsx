@@ -12,9 +12,9 @@ interface TagPageProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { tag } = context.query;
+    const tag = (context.query.tag as string)?.toLowerCase();
 
-    if (typeof tag !== 'string') {
+    if (!tag) {
         return {
             notFound: true,
         };
