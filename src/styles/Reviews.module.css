@@ -121,6 +121,8 @@
     margin-bottom: 20px;
     border-radius: 15px; /* Add curved border */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+    max-height: 800px;
+    object-fit: cover;
 }
 
 .reviewer {
