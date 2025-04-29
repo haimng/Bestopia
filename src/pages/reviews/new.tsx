@@ -7,6 +7,8 @@ import { apiPost } from '../../utils/api';
 import { isAdmin } from '../../utils/auth';
 
 const NewReviewPage: React.FC = () => {
+    const [product_name, setProductName] = useState('');
+    const [gptResponse, setGptResponse] = useState('');
     const [title, setTitle] = useState('');
     const [subtitle, setSubtitle] = useState('');
     const [introduction, setIntroduction] = useState('');
@@ -17,7 +19,7 @@ const NewReviewPage: React.FC = () => {
     const [gender, setGender] = useState('all');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);    
     const router = useRouter();
 
     useEffect(() => {
@@ -72,6 +74,26 @@ const NewReviewPage: React.FC = () => {
         }
     };
 
+    const handleAskGPT = async () => {
+        setLoading(true);
+        setError('');
+        try {
+            const response = await apiPost('/reviews', {product_name: product_name.trim()});
+
+            const { gptResponse, task1, task2, task3 } = response;
+            setGptResponse(gptResponse || '');
+            handleReviewDetailsChange(`title\tsubtitle\tintroduction\n${task1[0].title}\t${task1[0].subtitle}\t${task1[0].introduction}`);
+            setProductDetails(`name\tdescription\n${task2.map((item: any) => `${item.name}\t${item.description}`).join('\n')}`);
+            setProductReviews(`review_text\n${task3.map((item: any) => `${item.review_text}`).join('\n')}`);            
+        } 
+        catch (error: any) {
+            setError('Failed to generate review using GPT.');
+        } 
+        finally {
+            setLoading(false);
+        }
+    };
+
     if (!isAuthorized) {
         return null; // Render nothing while checking authorization
     }
@@ -84,6 +106,32 @@ const NewReviewPage: React.FC = () => {
             <div className={styles.container}>
                 <h1 className={styles.title}>Post a New Review</h1>
                 <div className={styles.form}>
+                    <label className={styles.label}>
+                        Product Name:
+                        <input
+                            type="text"
+                            value={product_name}
+                            onChange={(e) => setProductName(e.target.value)}
+                            className={styles.input}
+                            required
+                        />
+                    </label>
+                    <label className={styles.label}>
+                        GPT Response:
+                        <textarea
+                            value={gptResponse}                            
+                            className={styles.textarea}
+                            readOnly
+                        />
+                    </label>
+                    <button
+                        type="button"
+                        onClick={handleAskGPT}
+                        className={styles.submitButton}
+                    >
+                        Ask GPT
+                    </button>
+                    <br /><br /><br />
                     <label className={styles.label}>
                         Title:
                         <input
@@ -176,7 +224,7 @@ const NewReviewPage: React.FC = () => {
                             <option value="woman">Woman only</option>
                             <option value="man">Man only</option>
                         </select>
-                    </label>
+                    </label>                    
                     {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
                     <button onClick={handlePostReview} className={styles.submitButton} disabled={loading}>
                         {loading ? 'Posting...' : 'Post Review'}
