@@ -28,7 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const productsResponse = await askGPT("gpt-4o-search-preview", bestProductsPrompt(product_name.trim())) || '';
             const parsedResults = parseTSV(productsResponse);
             
-            const reviewsResponse = await askGPT("gpt-4o", productReviewsPrompt(parsedResults.task2.map((item: any) => item.name + '\t' + item.description).join('\n'))) || '';
+            let reviewsResponse = await askGPT("gpt-4o", productReviewsPrompt(parsedResults.task2.map((item: any) => item.name + '\t' + item.description).join('\n'))) || '';
+            reviewsResponse = `review_text\n${reviewsResponse}`;
             const parsedReviews = parseTSV(reviewsResponse);
 
             parsedResults.task3 = parsedReviews.task1;
@@ -162,7 +163,7 @@ function bestProductsPrompt(product_name: string): string {
       Introduction should be 500 to 700 characters long.
       Don’t mention about Amazon. Don’t mention about only top 5 because I may add more later.  
       Provide the result in TSV-formatted text with the following field names in the first line: "title subtitle  introduction". 
-      Make sure there is no line-break between subtitle and introduction.
+      Make sure using tab (\t) to separate title, subtitle and introduction.
 
     * Task 2: Find top 5 of those product pages on https://www.amazon.com and provide their name, description in TSV-formatted text with the following field names in the first line: "name	description".
       Each product description should be about 200 characters long.
@@ -178,11 +179,11 @@ function productReviewsPrompt(products: string): string {
     I have a list of products with their names and descriptions as follows:
     ${products}
 
-    Write an in-depth, honest and very long review (at least 1,500 characters, this is important) for each product in TSV-formatted text with the field name "review_text" in the first line.
+    Write an in-depth, honest and very long review (at least 1,500 characters, this is important) for each product.
     Don’t mention about a specific price. Don’t include source. 
     Repeat the product name only once in the review.
-    In the tsv, each review one line, no extra line-break, don't wrap the review in double quotations.
-    Don’t include any extra text or explanation. Just provide the results in TSV-formatted text. Don't wrap the text in any characters.
+    Each review one line. Don't wrap the review in double quotations or any characters.
+    Don’t include any extra text or explanation, just provide the reviews.
   `;
 };
 
