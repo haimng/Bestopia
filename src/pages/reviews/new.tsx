@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import styles from '../../styles/NewReview.module.css';
-import { apiPost } from '../../utils/api';
+import { apiPost, apiPut } from '../../utils/api';
 import { isAdmin } from '../../utils/auth';
 
 const NewReviewPage: React.FC = () => {
@@ -44,7 +44,12 @@ const NewReviewPage: React.FC = () => {
                 productReviews: productReviews.trim(),
                 gender: gender
             });
-            router.push(`/reviews/${newReview.slug}`);
+
+            const lastProduct = newReview.products[newReview.products.length - 1];
+            await apiPut(`/products/${lastProduct.id}`, { ...lastProduct, crawl_product: true });
+
+            // router.push(`/reviews/${newReview.slug}`);
+            router.push(`/reviews/edit?id=${newReview.id}`);
         } catch (error: any) {
             setError(error.message);
         } finally {

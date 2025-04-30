@@ -67,6 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 [title.trim(), subtitle.trim(), introduction.trim(), finalCoverPhoto, slug]
             );
 
+            let result = reviewResult.rows[0];
             const reviewId = reviewResult.rows[0].id;
 
             const productReviewLines = productReviews.trim().split('\n');
@@ -82,6 +83,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             let baseRating = 5.0;
 
+            result.products = [];
             for (let i = 0; i < products.length; i++) {
                 const product = products[i];
                 const productResult = await client.query(
@@ -89,6 +91,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     [reviewId, product.name, product.description, product.image_url || '', product.product_page || '']
                 );
 
+                result.products.push(productResult.rows[0]);
                 const productId = productResult.rows[0].id;
                 const productReview = productReviewsArray[i];
 
@@ -134,7 +137,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             await client.query('COMMIT');
-            res.status(201).json(reviewResult.rows[0]);
+            res.status(201).json(result);
         } catch (error: any) {
             await client.query('ROLLBACK');
             console.error('Error posting review:', error);
