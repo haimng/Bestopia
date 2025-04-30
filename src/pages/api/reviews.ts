@@ -163,10 +163,11 @@ function bestProductsPrompt(product_name: string): string {
       Introduction should be 500 to 700 characters long.
       Don’t mention about Amazon. Don’t mention about only top 5 because I may add more later.  
       Provide the result in TSV-formatted text with the following field names in the first line: "title subtitle  introduction". 
-      Make sure using tab (\t) to separate title, subtitle and introduction.
+      Make sure to use tab space (\t) to separate "title", "subtitle" and "introduction".
+      DON'T PUT A LINE-BREAK BETWEEN "title", "subtitle" and "introduction".
 
     * Task 2: Find top 5 of those product pages on https://www.amazon.com and provide their name, description in TSV-formatted text with the following field names in the first line: "name	description".
-      Each product description should be about 200 characters long.
+      Make sure each product "description" should be 200 to 300 characters long.
     
     Make sure to provide the results in TSV-formatted text (each tsv per task) so users can copy it easily.
     Don’t include any extra text or explanation. Just provide the results in TSV-formatted text.
