@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 
 export async function askGPT(model: string, prompt: string): Promise<string | undefined> {
-    const max_tokens = model == "gpt-4o" ? 3000 : 1500; // max: gpt-4o-search-preview 1530, gpt-4o 4000
+    const max_tokens = model == "gpt-4o" ? 3000 : 2000; // max: gpt-4o-search-preview 1530, gpt-4o 4000
     console.log({ model, max_tokens, prompt });
 
     try {

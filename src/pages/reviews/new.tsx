@@ -19,7 +19,8 @@ const NewReviewPage: React.FC = () => {
     const [gender, setGender] = useState('all');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [isAuthorized, setIsAuthorized] = useState(false);    
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [askGPTLoading, setAskGPTLoading] = useState(false); // Add a new state for the "Ask GPT" button
     const router = useRouter();
 
     useEffect(() => {
@@ -73,29 +74,27 @@ const NewReviewPage: React.FC = () => {
     const handlePaste = async (callback: (text: string) => void) => {
         try {
             const text = await navigator.clipboard.readText();
-            callback(text);            
+            callback(text);
         } catch (error) {
             console.error('Failed to read clipboard contents:', error);
         }
     };
 
     const handleAskGPT = async () => {
-        setLoading(true);
+        setAskGPTLoading(true); // Set loading state for "Ask GPT" button
         setError('');
         try {
-            const response = await apiPost('/reviews', {product_name: product_name.trim()});
+            const response = await apiPost('/reviews', { product_name: product_name.trim() });
 
             const { gptResponse, task1, task2, task3 } = response;
             setGptResponse(gptResponse || '');
             handleReviewDetailsChange(`title\tsubtitle\tintroduction\n${task1[0].title}\t${task1[0].subtitle}\t${task1[0].introduction}`);
             setProductDetails(`name\tdescription\n${task2.map((item: any) => `${item.name}\t${item.description}`).join('\n')}`);
-            setProductReviews(`review_text\n${task3.map((item: any) => `${item.review_text}`).join('\n')}`);            
-        } 
-        catch (error: any) {
+            setProductReviews(`review_text\n${task3.map((item: any) => `${item.review_text}`).join('\n')}`);
+        } catch (error: any) {
             setError('Failed to generate review using GPT.');
-        } 
-        finally {
-            setLoading(false);
+        } finally {
+            setAskGPTLoading(false); // Reset loading state
         }
     };
 
@@ -124,7 +123,7 @@ const NewReviewPage: React.FC = () => {
                     <label className={styles.label}>
                         GPT Response:
                         <textarea
-                            value={gptResponse}                            
+                            value={gptResponse}
                             className={styles.textarea}
                             readOnly
                         />
@@ -133,8 +132,9 @@ const NewReviewPage: React.FC = () => {
                         type="button"
                         onClick={handleAskGPT}
                         className={styles.submitButton}
+                        disabled={askGPTLoading} // Disable the button when loading
                     >
-                        Ask GPT
+                        {askGPTLoading ? 'Asking...' : 'Ask GPT'} {/* Change text based on loading state */}
                     </button>
                     <br /><br /><br />
                     <label className={styles.label}>
@@ -229,7 +229,7 @@ const NewReviewPage: React.FC = () => {
                             <option value="woman">Woman only</option>
                             <option value="man">Man only</option>
                         </select>
-                    </label>                    
+                    </label>
                     {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
                     <button onClick={handlePostReview} className={styles.submitButton} disabled={loading}>
                         {loading ? 'Posting...' : 'Post Review'}
