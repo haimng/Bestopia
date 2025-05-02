@@ -69,15 +69,37 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
             ))}
           </section>
           <div className={styles.pagination}>
-            {Array.from({ length: totalPages }, (_, i) => (
+            {currentPage > 1 && (
               <button
-                key={i}
-                className={`${styles.pageButton} ${i + 1 === currentPage ? styles.activePage : ''}`}
-                onClick={() => handlePageChange(i + 1)}
+                className={styles.pageButton}
+                onClick={() => handlePageChange(currentPage - 1)}
               >
-                {i + 1}
+                {'<'}
               </button>
-            ))}
+            )}
+            {Array.from({ length: totalPages }, (_, i) => i + 1)
+              .filter(
+                (page) =>
+                  page >= currentPage - 2 &&
+                  page <= currentPage + 2
+              )
+              .map((page) => (
+                <button
+                  key={page}
+                  className={`${styles.pageButton} ${page === currentPage ? styles.activePage : ''}`}
+                  onClick={() => handlePageChange(page)}
+                >
+                  {page}
+                </button>
+              ))}
+            {currentPage < totalPages && (
+              <button
+                className={styles.pageButton}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                {'>'}
+              </button>
+            )}
           </div>
         </main>
       </div>
