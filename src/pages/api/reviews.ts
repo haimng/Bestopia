@@ -162,8 +162,8 @@ function bestProductsPrompt(product_name: string): string {
       Title should be in this format: "The Best {product_name} of 2025" or "Top {product_name} of 2025".
       Introduction should be 500 to 700 characters long.
       Don’t mention about Amazon. Don’t mention about only top 5 because I may add more later.  
-      Provide the result in TSV-formatted text with the following field names in the first line: "title subtitle  introduction". 
-      Add a tab space beween "subtitle" and "introduction".
+      Provide the result in TSV-formatted text with the following field names in the first line: "title subtitle  introduction".
+      Add a tab space beween the texts of title, subtitle, and introduction follow this format: "title\tsubtitle\tintroduction".
 
     * Task 2: Find top 5 of those product pages on https://www.amazon.com and provide their name, description in TSV-formatted text with the following field names in the first line: "name	description".
       Don’t include sources or citations.
