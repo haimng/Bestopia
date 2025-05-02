@@ -46,10 +46,14 @@ const NewReviewPage: React.FC = () => {
                 gender: gender
             });
 
-            const lastProduct = newReview.products[newReview.products.length - 1];
-            await apiPut(`/products/${lastProduct.id}`, { ...lastProduct, crawl_product: true });
+            try {
+              const lastProduct = newReview.products[newReview.products.length - 1];
+              await apiPut(`/products/${lastProduct.id}`, { ...lastProduct, crawl_product: true });
+            }
+            catch (error) {
+              console.error('Error updating product:', error);
+            }
 
-            // router.push(`/reviews/${newReview.slug}`);
             router.push(`/reviews/edit?id=${newReview.id}`);
         } catch (error: any) {
             setError(error.message);
