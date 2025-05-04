@@ -115,8 +115,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     );
                 }
 
-                // Update product with crawled data for the first 4 products only
-                if (i < 4) {
+                // Update product with crawled data for the first product only
+                if (i < 1) {
                     try {
                         const crawledData = await crawlProduct(product);
                         await client.query(

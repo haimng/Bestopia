@@ -19,7 +19,7 @@ const apiRequest = async (endpoint: string, options: RequestInit = {}) => {
 
     if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'API request failed');
+        throw new Error(`${errorData.error}: ${errorData.details}`);
     }
 
     return response.json();

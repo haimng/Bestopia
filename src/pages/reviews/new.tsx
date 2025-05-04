@@ -47,8 +47,11 @@ const NewReviewPage: React.FC = () => {
             });
 
             try {
-              const lastProduct = newReview.products[newReview.products.length - 1];
-              await apiPut(`/products/${lastProduct.id}`, { ...lastProduct, crawl_product: true });
+              // Crawl products from the 2nd to the last
+              for (let i = 1; i < newReview.products.length; i++) {
+                const product = newReview.products[i];
+                await apiPut(`/products/${product.id}`, { ...product, crawl_product: true });
+              }
             }
             catch (error) {
               console.error('Error updating product:', error);
@@ -132,6 +135,7 @@ const NewReviewPage: React.FC = () => {
                             readOnly
                         />
                     </label>
+                    {error && <p className={`${styles.error} ${styles.centered}`}>{error}</p>}
                     <button
                         type="button"
                         onClick={handleAskGPT}
