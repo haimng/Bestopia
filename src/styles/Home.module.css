@@ -74,8 +74,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px 0;
-  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
 }
 
 @media (min-width: 768px) {
@@ -206,6 +205,25 @@
 
 .newButton:hover {
   background-color: #f0f0f0; /* Lighter shade for hover */
+}
+
+/* Add styles for the search container and form group */
+.searchContainer {
+  margin-bottom: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;  
 }
 
 /* Media query for mobile devices */

@@ -19,11 +19,13 @@ CREATE TABLE reviews (
   cover_photo VARCHAR(255) DEFAULT NULL,  
   tags VARCHAR(255) DEFAULT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  title_tsvector TSVECTOR
 );
 
 CREATE UNIQUE INDEX idx_reviews_slug ON reviews(slug);
 CREATE INDEX idx_reviews_tags ON reviews (tags);
+CREATE INDEX idx_reviews_title_tsvector ON reviews USING GIN (title_tsvector);
 
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
@@ -49,6 +51,16 @@ CREATE TABLE product_reviews (
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
+CREATE OR REPLACE FUNCTION update_reviews_title_tsvector() RETURNS TRIGGER AS $$
+BEGIN
+  NEW.title_tsvector := to_tsvector('english', NEW.title);
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_reviews_title_tsvector
+BEFORE INSERT OR UPDATE ON reviews
+FOR EACH ROW EXECUTE FUNCTION update_reviews_title_tsvector();
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO dbuser;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO dbuser;

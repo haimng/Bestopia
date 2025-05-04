@@ -8,6 +8,7 @@ import { getPagedReviews } from '../../utils/db'; // Ensure this import is corre
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { isAdmin } from '../../utils/auth';
+import { apiGet } from '../../utils/api';
 
 type ReviewsPageProps = {
   reviews: Review[];
@@ -18,10 +19,46 @@ type ReviewsPageProps = {
 const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentPage }) => {
   const router = useRouter();
   const [isAdminUser, setIsAdminUser] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [filteredReviews, setFilteredReviews] = useState(reviews);
+  const [totalPagesState, setTotalPages] = useState(totalPages);
+  const [currentPageState, setCurrentPage] = useState(currentPage);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     setIsAdminUser(isAdmin());
   }, []);
+
+  useEffect(() => {
+    setFilteredReviews(reviews);
+  }, [reviews]);
+
+  useEffect(() => {
+    setTotalPages(totalPages);
+  }, [totalPages]);
+
+  useEffect(() => {
+    setCurrentPage(currentPage);
+  }, [currentPage]);
+
+  const handleSearch = async (page: number = 1) => {
+    if (searchKeyword.trim()) {
+      setIsSearching(true);
+      try {
+        const { reviews, totalPages } = await apiGet(`/reviews/search?keyword=${encodeURIComponent(searchKeyword)}&page=${page}`);
+        setFilteredReviews(reviews);
+        setTotalPages(totalPages);
+        setCurrentPage(page);
+      } catch (error) {
+        console.error('Error searching reviews:', error);
+      }
+    } else {
+      setFilteredReviews(reviews);
+      setTotalPages(totalPages);      
+      setCurrentPage(currentPage);
+      setIsSearching(false);      
+    }
+  };
 
   const handlePageChange = (page: number) => {
     router.push(`/reviews?page=${page}`);
@@ -42,9 +79,25 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
           <h1 className={styles.title}>All Reviews</h1>
           {isAdminUser && <button className={styles.newButton} onClick={handleNewReview}>New</button>}
         </header>
+        <div className={styles.searchContainer}>
+          <div className={styles.formGroup}>            
+            <input
+              type="text"
+              placeholder="Search reviews"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
+              className={styles.input}
+            />
+          </div>
+        </div>
         <main className={styles.main}>
           <section className={styles.reviews}>
-            {reviews && reviews.map((review, index) => (
+            {filteredReviews && filteredReviews.map((review, index) => (
               <div key={index} className={styles.review} id={`review${index + 1}`}>
                 <Link href={`/reviews/${review.slug}`} legacyBehavior>
                   <a className={styles.link}>
@@ -69,33 +122,33 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
             ))}
           </section>
           <div className={styles.pagination}>
-            {currentPage > 1 && (
+            {currentPageState > 1 && (
               <button
                 className={styles.pageButton}
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={() => isSearching ? handleSearch(currentPageState - 1) : handlePageChange(currentPageState - 1)}
               >
                 {'<'}
               </button>
             )}
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
+            {Array.from({ length: totalPagesState }, (_, i) => i + 1)
               .filter(
                 (page) =>
-                  page >= currentPage - 2 &&
-                  page <= currentPage + 2
+                  page >= currentPageState - 2 &&
+                  page <= currentPageState + 2
               )
               .map((page) => (
                 <button
                   key={page}
-                  className={`${styles.pageButton} ${page === currentPage ? styles.activePage : ''}`}
-                  onClick={() => handlePageChange(page)}
+                  className={`${styles.pageButton} ${page === currentPageState ? styles.activePage : ''}`}
+                  onClick={() => isSearching ? handleSearch(page) : handlePageChange(page)}
                 >
                   {page}
                 </button>
               ))}
-            {currentPage < totalPages && (
+            {currentPageState < totalPagesState && (
               <button
                 className={styles.pageButton}
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => isSearching ? handleSearch(currentPageState + 1) : handlePageChange(currentPageState + 1)}
               >
                 {'>'}
               </button>
