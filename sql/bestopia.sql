@@ -39,6 +39,8 @@ CREATE TABLE products (
   FOREIGN KEY (review_id) REFERENCES reviews(id)
 );
 
+CREATE INDEX idx_products_review_id ON products (review_id);
+
 CREATE TABLE product_reviews (
   id SERIAL PRIMARY KEY,
   product_id INT NOT NULL,
@@ -50,6 +52,21 @@ CREATE TABLE product_reviews (
   FOREIGN KEY (product_id) REFERENCES products(id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE INDEX idx_product_reviews_product_id ON product_reviews (product_id);
+CREATE INDEX idx_product_reviews_user_id ON product_reviews (user_id);
+
+CREATE TABLE product_comparisons (
+  id SERIAL PRIMARY KEY,
+  product_id INT NOT NULL,
+  aspect VARCHAR(255) NOT NULL,
+  comparison_point TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE INDEX idx_product_comparisons_product_id ON product_comparisons (product_id);
 
 CREATE OR REPLACE FUNCTION update_reviews_title_tsvector() RETURNS TRIGGER AS $$
 BEGIN

@@ -16,3 +16,11 @@ BEFORE INSERT OR UPDATE ON reviews
 FOR EACH ROW EXECUTE FUNCTION update_reviews_title_tsvector();
 
 UPDATE reviews SET title_tsvector = to_tsvector('english', title);
+
+CREATE INDEX idx_products_review_id ON products (review_id);
+
+CREATE INDEX idx_product_reviews_product_id ON product_reviews (product_id);
+CREATE INDEX idx_product_reviews_user_id ON product_reviews (user_id);
+
+CREATE INDEX idx_product_comparisons_review_id ON product_comparisons (review_id);
+CREATE INDEX idx_product_comparisons_product_id ON product_comparisons (product_id);
