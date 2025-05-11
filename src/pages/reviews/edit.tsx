@@ -403,6 +403,12 @@ ${productDataText}`;
                 <br />                        
                 <br />
                 <br />
+                <Link href={`/reviews/${editableReview.slug}`} legacyBehavior>
+                    <a className={styles.link}>
+                        {editableReview.title}
+                    </a>
+                </Link>
+                <br />
                 <Link href="/reviews/new" legacyBehavior>
                     <a className={`${styles.borderButton}`}>New</a>
                 </Link>
