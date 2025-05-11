@@ -110,16 +110,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 function parseTSV(productIds: Array<number>, gptResponse: string) {
     const lines = gptResponse.trim().split('\n');
 
-    const headers = lines[0].split('\t').map((header: string) => {
-      const h = header.trim();      
-      const match = h.match(/product(\d+)/);
-      if (match) {
-        const index = parseInt(match[1], 10) - 1;
-        if (index >= 0 && index < productIds.length) {
-          return `${productIds[index]}`;
-        }
-      }
-      return h;
+    const headers = lines[0].split('\t').map((header: string, index: number) => {
+      return index > 0 ? `${productIds[index-1]}` : header.trim();
     });
 
     const data = lines.slice(1).map((line: string) => {
