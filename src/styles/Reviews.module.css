@@ -73,10 +73,6 @@
     margin-bottom: 10px;    
 }
 
-.reviewText {  
-  text-indent: 2em;
-}
-
 .displayName {
     font-style: italic; /* Set display name to italic */
     font-weight: normal; /* Set display name to regular (not bold) */
