@@ -89,13 +89,13 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products, produ
 
         return `Look up data from these products below and create a comparison table in TSV format.
 The first line should be in lowercase.
-product_id in the first line should be replaced with the real product id numbers following this sample format: "1	2	3	4	5".
+Product ids are in the first line.
 The aspects text should be in Title Case like this sample: "Rear Camera".
 The number of aspects to compare should be up to 10.
 Don't add Price to aspects
 
 === Comparison table format => Should be in TSV format (tab separated values):
-aspect  product_id 1  product_id 2  product_id 3  product_id 4  product_id 5
+aspect  ${editableProducts.map(product => product.id).join('\t')}
 Aspect 1  Point 1.1  Point 2.1  Point 3.1  Point 4.1  Point 5.1
 Aspect 2  Point 1.2  Point 2.2  Point 3.2  Point 4.2  Point 5.2
 Aspect 3  Point 1.3  Point 2.3  Point 3.3  Point 4.3  Point 5.3
