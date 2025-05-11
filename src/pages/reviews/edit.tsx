@@ -92,7 +92,7 @@ The first line should be in lowercase.
 Product ids are in the first line.
 The aspects text should be in Title Case like this sample: "Rear Camera".
 The number of aspects to compare should be up to 10.
-Don't add Price to aspects
+Don't add product's Price, Name and URL to aspects.
 
 === Comparison table format => Should be in TSV format (tab separated values):
 aspect  ${editableProducts.map(product => product.id).join('\t')}
