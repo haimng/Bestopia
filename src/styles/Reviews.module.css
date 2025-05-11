@@ -62,7 +62,7 @@
 .reviewContent {
     font-size: 1em;
     color: #595959; /* Brighter text color */
-    margin-bottom: 20px; /* Add space between product description and reviews */
+    margin-bottom: 20px; /* Add space between product description and reviews */    
 }
 
 .productReviews {
@@ -70,7 +70,11 @@
 }
 
 .productReview {
-    margin-bottom: 10px;
+    margin-bottom: 10px;    
+}
+
+.reviewText {  
+  text-indent: 2em;
 }
 
 .displayName {
@@ -219,6 +223,66 @@
 
 .amazonDisclosure {
     color: gray;
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
+    font-size: 0.85rem;    
+    font-weight: normal;
+}
+
+.smallButton {
+    padding: 7px 15px; /* Smaller padding for a compact button */
+    font-size: 12px; /* Smaller font size */
+    border-radius: 4px; /* Slightly rounded corners */
+    text-transform: uppercase; /* Keep text uppercase */
+    font-weight: bold; /* Bold text */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.smallButton:hover {
+    background-color: #3F1D14; /* Match hover background color */
+    color: white; /* Match hover text color */
+    transition: 0.3s ease-in-out; /* Smooth transition */
+}
+
+.comparisonTable {
+    margin: 20px -10px 30px -10px;    
+    overflow-x: auto; /* Enable horizontal scrolling */
+    border: 1px solid #ddd; /* Add a light border */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Add padding inside the container */
+    background-color: #f9f9f9; /* Light background color */
+}
+
+.comparisonTable table {
+    width: 100%; /* Make the table take full width */
+    border-collapse: collapse; /* Remove gaps between table cells */
+}
+
+.comparisonTable th, .comparisonTable td {
+    padding: 10px; /* Add padding to table cells */
+    text-align: left; /* Align text to the left */
+    border: 1px solid #ddd; /* Add a border to table cells */
+}
+
+.comparisonTable th {
+    background-color: #f1f1f1; /* Light gray background for headers */
+    font-weight: bold; /* Make header text bold */
+    min-width: 200px; /* Set a minimum width for table headers */
+    text-align: center; /* Center-align text in table headers */
+}
+
+.comparisonTable th:first-child {
+    min-width: 150px; /* Set the first header to 100px */
+}
+
+@media (max-width: 768px) {
+    .comparisonTable th:first-child {
+        min-width: 100px; /* Adjust the first header width for mobile */
+    }
+}
+
+.comparisonTable img {
+    max-width: 100px; /* Limit the width of images */
+    max-height: 300px;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; /* Center the image */
 }

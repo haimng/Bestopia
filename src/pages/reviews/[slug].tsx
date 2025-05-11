@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import styles from '../../styles/Reviews.module.css';
-import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId, getRandomReviews } from '../../utils/db';
+import { getReviewBySlug, getProductsByReviewId, getProductReviewsByProductId, getRandomReviews, getProductComparisonsByProductIds } from '../../utils/db';
 import { DOMAIN } from '../../constants';
 import {
     FacebookShareButton,
@@ -55,9 +55,10 @@ interface ReviewPageProps {
     review: Review;
     products: Product[];
     randomReviews: Review[];
+    productComparisons: any[];
 }
 
-const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews }) => {
+const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews, productComparisons }) => {
     const router = useRouter();
     const [isAdminUser, setIsAdminUser] = useState(false);
 
@@ -181,6 +182,59 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                         </React.Fragment>
                     ))}
                 </p>
+
+                {productComparisons.length > 0 && (
+                    <div id="comparison-table" className={styles.comparisonTable}>
+                        <table className={styles.table}>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    {products.map(product => (
+                                        <th key={product.id}>
+                                            {product.image_url && (
+                                                <img
+                                                    src={product.image_url}
+                                                    alt={product.name}
+                                                    className={`${styles.productImage} ${styles.responsiveImage}`}
+                                                />
+                                            )}
+                                            {product.name}
+                                            {product.product_page && (
+                                              <div>
+                                                <a href={`${product.product_page.split('?')[0]}?tag=bestopia-20&linkCode=ll1`} target="_blank" rel="nofollow noopener noreferrer">
+                                                    <button className={`${styles.buyButton} ${styles.smallButton}`}>See Price</button>
+                                                </a>
+                                                <div className={styles.amazonDisclosure}>
+                                                  <small>#ad: Amazon.com</small>
+                                                </div>
+                                              </div>
+                                            )}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {Object.entries(
+                                    productComparisons.reduce((acc: any, comparison: any) => {
+                                        if (!acc[comparison.aspect]) {
+                                            acc[comparison.aspect] = {};
+                                        }
+                                        acc[comparison.aspect][comparison.product_id] = comparison.comparison_point;
+                                        return acc;
+                                    }, {})
+                                ).map(([aspect, points]: any, index) => (
+                                    <tr key={index}>
+                                        <td><strong>{aspect}</strong></td>
+                                        {products.map(product => (
+                                            <td key={product.id}>{points[product.id] || ''}</td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}    
+
                 <div className={styles.reviewList}>
                     {products.map((product) => (
                         <div key={product.id} className={styles.reviewItem}>
@@ -276,6 +330,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const review = await getReviewBySlug(slug);
     const products = await getProductsByReviewId(review.id);
     const randomReviews = await getRandomReviews();
+    const productComparisons = await getProductComparisonsByProductIds(products.map(product => product.id));
 
     const serializedReview = {
         ...review,
@@ -299,6 +354,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     }));
 
+    const serializedProductComparisons = productComparisons.map((comparison: any) => ({
+      ...comparison,
+      created_at: comparison.created_at.toISOString(),
+      updated_at: comparison.updated_at.toISOString(),
+    }));
+
     const serializedRandomReviews = randomReviews.map((randomReview: any) => ({
         ...randomReview,
         created_at: new Date(randomReview.created_at).toISOString(),
@@ -308,7 +369,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return {
         props: {
             review: serializedReview,
-            products: serializedProducts,
+            products: serializedProducts,            
+            productComparisons: serializedProductComparisons,
             randomReviews: serializedRandomReviews,
         },
     };

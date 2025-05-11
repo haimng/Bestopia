@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Layout from '../../components/Layout';
 import styles from '../../styles/NewReview.module.css';
-import { getReviewById, getProductsByReviewId } from '../../utils/db';
+import { getReviewById, getProductsByReviewId, getProductComparisonsByProductIds } from '../../utils/db';
 import { isAdmin } from '../../utils/auth';
 import { apiPut, apiPost } from '../../utils/api';
 
@@ -46,9 +46,10 @@ interface Review {
 interface EditReviewPageProps {
     review: Review;
     products: Product[];
+    serializedProductComparisons: any[]; // Add serializedProductComparisons to props
+    product_comparisons: any[]; // Add product_comparisons to props
 }
-
-const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => {
+const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products, product_comparisons }) => {
     const router = useRouter();
     const [editableReview, setEditableReview] = useState(review);
     const [editableProducts, setEditableProducts] = useState(products);
@@ -59,6 +60,52 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
     const [imageDimensions, setImageDimensions] = useState<{ [key: number]: { width: number, height: number } }>({});
     const [coverPhotoDimensions, setCoverPhotoDimensions] = useState<{ width: number, height: number } | null>(null);
     const [productErrors, setProductErrors] = useState<{ [key: number]: string }>({});
+    const [productComparisons, setProductComparisons] = useState(() => {
+        if (product_comparisons.length > 0) {
+            const header = ['aspect', ...editableProducts.map(product => product.id)].join('\t');
+            const rows = product_comparisons.reduce((acc: any, comparison: any) => {
+                if (!acc[comparison.aspect]) {
+                    acc[comparison.aspect] = [];
+                }
+                acc[comparison.aspect][comparison.product_id] = comparison.comparison_point;
+                return acc;
+            }, {});
+
+            const formattedRows = Object.entries(rows).map(([aspect, points]: any) => {
+                const row = [aspect, ...editableProducts.map(product => points[product.id] || '')];
+                return row.join('\t');
+            });
+
+            return [header, ...formattedRows].join('\n');
+        }
+
+        const productData = editableProducts.map(product => ({
+            product_id: product.id,
+            product_name: product.name,
+            product_description: product.description,
+            product_url: product.product_page,
+        }));
+        const productDataText = JSON.stringify(productData, null, 2);
+
+        return `Look up data from these products below and create a comparison table in TSV format.
+The first line should be in lowercase.
+Product IDs in the first line should be real product numbers following this sample format: "1	2	3	4	5".
+The aspects should be in normal wording like this sample: "Rear Camera".
+The number of aspects to compare should be up to 10.
+Don't add Price to aspects
+
+=== Comparison table format => TSV format
+aspect      | #product_id_1 | #product_id_2 | #product_id_3 | #product_id_4 | #product_id_5
+-------------------------------------------------------------------------------------------
+Aspect 1    | Point 1.1     | Point 2.1     | Point 3.1     | Point 4.1     | Point 5.1
+Aspect 2    | Point 1.2     | Point 2.2     | Point 3.2     | Point 4.2     | Point 5.2
+Aspect 3    | Point 1.3     | Point 2.3     | Point 3.3     | Point 4.3     | Point 5.3
+
+=== Product Data:
+${productDataText}`;
+    });
+    const [saveComparisonsError, setSaveComparisonsError] = useState('');
+    const [isSavingComparisons, setIsSavingComparisons] = useState(false);
 
     useEffect(() => {
         const adminStatus = isAdmin();
@@ -141,6 +188,36 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
     const handleCoverPhotoLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
         const img = event.currentTarget;
         setCoverPhotoDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+    };
+
+    const handlePaste = (setter: React.Dispatch<React.SetStateAction<string>>) => {
+        navigator.clipboard.readText().then(text => {
+            setter(text);
+        }).catch(err => {
+            console.error('Failed to read clipboard contents: ', err);
+        });
+    };
+
+    const handleAskGPT = async (comparisons: string) => {
+        // Implement the logic to handle "Ask GPT" functionality
+        console.log('Ask GPT for comparisons:', comparisons);
+    };
+
+    const handleSaveComparisons = async (comparisons: any) => {
+        setSaveComparisonsError('');
+        setIsSavingComparisons(true);
+        try {
+            const result = await apiPost('/product_comparisons', {
+                productComparisons: comparisons,
+                productIds: editableProducts.map(product => product.id),
+            });
+            console.log('Product comparisons saved successfully:', result);
+        } catch (error) {
+            console.error('Error saving product comparisons:', error);
+            setSaveComparisonsError('Failed to save product comparisons. Please try again.');
+        } finally {
+            setIsSavingComparisons(false);
+        }
     };
 
     return (
@@ -275,7 +352,7 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                                 onChange={(e) => handleProductChange(product.id, 'product_page', e.target.value)}
                                 className={styles.input}
                             />                            
-                        </div>
+                        </div>                        
                         {productErrors[product.id] && <p className={styles.error}>{productErrors[product.id]}</p>}
                         <div className={styles.buttonGroup}>
                             <button onClick={() => handleSaveProduct(product.id)} className={`${styles.submitButton} ${styles.smallButton}`} disabled={loadingProduct === product.id}>
@@ -289,7 +366,44 @@ const EditReviewPage: React.FC<EditReviewPageProps> = ({ review, products }) => 
                         <br />
                         <br />
                     </div>
-                ))}                
+                ))}              
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>
+                        Product Comparisons:
+                        <button
+                            type="button"
+                            onClick={() => navigator.clipboard.writeText(productComparisons)}
+                            className={styles.pasteButton}
+                        >
+                            Copy
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handlePaste(setProductComparisons)}
+                            className={styles.pasteButton}
+                        >
+                            Paste
+                        </button>                        
+                    </label>
+                    <textarea
+                        value={productComparisons}
+                        onChange={(e) => setProductComparisons(e.target.value)}
+                        className={styles.textarea}
+                        required
+                    />
+                </div>  
+                {saveComparisonsError && <p className={styles.error}>{saveComparisonsError}</p>}
+                <div className={styles.buttonGroup}>
+                    {/* <button onClick={() => handleAskGPT(productComparisons)} className={`${styles.submitButton} ${styles.smallButton}`}>
+                        Ask GPT
+                    </button> */}
+                    <button onClick={() => handleSaveComparisons(productComparisons)} className={`${styles.submitButton} ${styles.smallButton}`}>
+                        {isSavingComparisons ? 'Saving...' : 'Save Comparisons'}
+                    </button>
+                </div>
+                <br />                        
+                <br />
+                <br />
                 <Link href="/reviews/new" legacyBehavior>
                     <a className={`${styles.borderButton}`}>New</a>
                 </Link>
@@ -307,6 +421,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
     const review = await getReviewById(parseInt(id));
     const products = await getProductsByReviewId(review.id);
+    const productComparisons = await getProductComparisonsByProductIds(products.map(product => product.id));
 
     const serializedReview = {
         ...review,
@@ -320,10 +435,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         updated_at: product.updated_at.toISOString(),
     }));
 
+    const serializedProductComparisons = productComparisons.map((comparison: any) => ({
+        ...comparison,
+        created_at: comparison.created_at.toISOString(),
+        updated_at: comparison.updated_at.toISOString(),
+    }));
+
     return {
         props: {
             review: serializedReview,
             products: serializedProducts,
+            product_comparisons: serializedProductComparisons,
         },
     };
 };

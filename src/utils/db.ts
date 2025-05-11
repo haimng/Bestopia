@@ -58,6 +58,28 @@ export const getProductReviewsByProductId = async (productId: number) => {
     return res.rows;
 };
 
+export const getProductComparisonsByProductId = async (productId: number) => {
+  const query = `
+      SELECT pc.*
+      FROM product_comparisons pc
+      WHERE pc.product_id = $1
+      ORDER BY pc.id ASC
+  `;
+  const res = await connection.query(query, [productId]);
+  return res.rows;
+};
+
+export const getProductComparisonsByProductIds = async (productIds: number[]) => {
+    const query = `
+        SELECT *
+        FROM product_comparisons
+        WHERE product_id = ANY($1::int[])
+        ORDER BY product_id, id ASC;
+    `;
+    const res = await connection.query(query, [productIds]);
+    return res.rows;
+};
+
 export const getTopReviews = async (): Promise<Review[]> => {
   const res = await connection.query(`SELECT ${reviewsFields} FROM reviews ORDER BY id DESC LIMIT 30`);
   return res.rows.map(review => ({

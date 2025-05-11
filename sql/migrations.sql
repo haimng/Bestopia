@@ -24,3 +24,7 @@ CREATE INDEX idx_product_reviews_user_id ON product_reviews (user_id);
 
 CREATE INDEX idx_product_comparisons_review_id ON product_comparisons (review_id);
 CREATE INDEX idx_product_comparisons_product_id ON product_comparisons (product_id);
+
+ALTER TABLE product_comparisons ADD CONSTRAINT unique_product_aspect UNIQUE (product_id, aspect);
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE product_comparisons TO dbuser;
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE product_comparisons_id_seq TO dbuser;
