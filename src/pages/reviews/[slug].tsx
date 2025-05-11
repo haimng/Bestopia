@@ -198,7 +198,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                                                     className={`${styles.productImage} ${styles.responsiveImage}`}
                                                 />
                                             )}
-                                            {product.name}
+                                            <p style={{margin: "10px 0"}}>{product.name}</p>
                                             {product.product_page && (
                                               <div>
                                                 <a href={`${product.product_page.split('?')[0]}?tag=bestopia-20&linkCode=ll1`} target="_blank" rel="nofollow noopener noreferrer">
