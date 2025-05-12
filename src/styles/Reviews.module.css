@@ -239,7 +239,7 @@
 }
 
 .comparisonTable {
-    margin: 20px -10px 30px -10px;    
+    margin: 15px -10px 30px -10px;
     overflow-x: auto; /* Enable horizontal scrolling */
     border: 1px solid #ddd; /* Add a light border */
     border-radius: 8px; /* Rounded corners */

@@ -183,6 +183,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                     ))}
                 </p>
 
+                {productComparisons.length > 0 && <h3>Product Comparison</h3>}
                 {productComparisons.length > 0 && (
                     <div id="comparison-table" className={styles.comparisonTable}>
                         <table className={styles.table}>
