@@ -47,6 +47,20 @@
     line-height: 1.2;
 }
 
+/* Footer link styles */
+.footerLink {
+    color: white;
+    text-decoration: none;
+    font-size: 11px; /* Small text size */
+    text-transform: none; /* Normal case */
+    font-weight: normal; /* Normal text weight */
+    margin: 0 10px; /* Add margin between links */
+}
+
+.footerLink:hover {
+    text-decoration: underline;
+}
+
 /* Media query for mobile devices */
 /* @media (max-width: 600px) {
     .layout .main {

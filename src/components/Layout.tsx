@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
+import Link from 'next/link';
 import styles from '../styles/Layout.module.css';
 
 interface LayoutProps {
@@ -25,6 +26,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <a href="https://x.com/Bestopia_net" target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
                         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><title>Bestopia - X</title><path d="M13.6468 10.4686L20.9321 2H19.2057L12.8799 9.3532L7.82741 2H2L9.6403 13.1193L2 22H3.72649L10.4068 14.2348L15.7425 22H21.5699L13.6464 10.4686H13.6468ZM11.2821 13.2173L10.508 12.1101L4.34857 3.29968H7.00037L11.9711 10.4099L12.7452 11.5172L19.2066 20.7594H16.5548L11.2821 13.2177V13.2173Z" fill="white"></path></svg>
                     </a>                    
+                </p>
+                <p>
+                    <Link href="/about" className={styles.footerLink}>About Us</Link>
+                    <Link href="/terms" className={styles.footerLink}>Terms of Use</Link>
+                    <Link href="/privacy" className={styles.footerLink}>Privacy Policy</Link>
                 </p>
             </footer>
         </div>
