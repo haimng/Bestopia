@@ -47,7 +47,7 @@ const About: React.FC = () => {
                 <br/>
                 <hr className={styles.sectionDivider} />
                 <br/>
-                <h3 className={styles.subtitle}>Contact Us</h3>
+                <h3 id="contact-us" className={styles.subtitle}>Contact Us</h3>
                 <div className={styles.formContainer}>
                     <form onSubmit={handleSubmit} className={styles.form}>
                         <label htmlFor="email" className={styles.label}>Email:</label>

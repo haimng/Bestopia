@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
+import Link from 'next/link';
 import styles from '../styles/About.module.css';
 
 const Privacy: React.FC = () => {
@@ -90,7 +91,11 @@ const Privacy: React.FC = () => {
                     <strong>10. Updates to This Policy</strong><br />
                     We may update this Privacy Policy from time to time to reflect changes in technology, law, or business operations. Updates will be posted on this page with a revised "Effective Date."<br /><br />
 
-                    We encourage you to review this policy periodically to stay informed about how we protect your data.<br /><br />                    
+                    We encourage you to review this policy periodically to stay informed about how we protect your data.<br /><br />
+
+                    <strong>11. Contact Us</strong><br />
+                    If you have any questions or concerns about this Privacy Policy, reach out to us anytime <Link href="/about#contact-us">here</Link>.
+                    <br /><br />                    
                 </p>
             </div>
         </Layout>
