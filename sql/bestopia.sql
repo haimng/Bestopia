@@ -69,6 +69,14 @@ CREATE TABLE product_comparisons (
 CREATE INDEX idx_product_comparisons_product_id ON product_comparisons (product_id);
 CREATE UNIQUE INDEX unique_product_aspect ON public.product_comparisons USING btree (product_id, aspect);
 
+CREATE TABLE support_requests (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE OR REPLACE FUNCTION update_reviews_title_tsvector() RETURNS TRIGGER AS $$
 BEGIN
   NEW.title_tsvector := to_tsvector('english', NEW.title);

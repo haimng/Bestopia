@@ -139,4 +139,15 @@ export const searchReviewsByKeyword = async (keyword: string, page: number = 1, 
     };
 };
 
+export async function insertSupportRequest(email: string, message: string) {
+    const client = await connection.connect();
+    try {
+        const query = 'INSERT INTO support_requests (email, message) VALUES ($1, $2) RETURNING *';
+        const result = await client.query(query, [email, message]);
+        return result.rows[0];
+    } finally {
+        client.release();
+    }
+}
+
 export default connection;
