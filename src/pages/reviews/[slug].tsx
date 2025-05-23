@@ -288,9 +288,11 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                                   <button className={styles.buyButton}>See Price</button>
                               </a>
                             )}
-                            <p className={styles.amazonDisclosure}>
-                              <small>#ad: {extractDomain(product.product_page)}</small>
-                            </p>
+                            {product.product_page && 
+                              <p className={styles.amazonDisclosure}>
+                                <small>#ad: {extractDomain(product.product_page)}</small>
+                              </p>
+                            }
                         </div>
                     ))}
                 </div>
