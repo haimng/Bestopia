@@ -60,10 +60,6 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
     }
   };
 
-  const handlePageChange = (page: number) => {
-    router.push(`/reviews?page=${page}`);
-  };
-
   const handleNewReview = () => {
     router.push('/reviews/new');
   };
@@ -123,12 +119,9 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
           </section>
           <div className={styles.pagination}>
             {currentPageState > 1 && (
-              <button
-                className={styles.pageButton}
-                onClick={() => isSearching ? handleSearch(currentPageState - 1) : handlePageChange(currentPageState - 1)}
-              >
-                {'<'}
-              </button>
+              <Link href={`/reviews?page=${currentPageState - 1}`} legacyBehavior>
+                <a className={styles.pageButton}>{'<'}</a>
+              </Link>
             )}
             {Array.from({ length: totalPagesState }, (_, i) => i + 1)
               .filter(
@@ -137,21 +130,18 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
                   page <= currentPageState + 2
               )
               .map((page) => (
-                <button
-                  key={page}
-                  className={`${styles.pageButton} ${page === currentPageState ? styles.activePage : ''}`}
-                  onClick={() => isSearching ? handleSearch(page) : handlePageChange(page)}
-                >
-                  {page}
-                </button>
+                <Link key={page} href={`/reviews?page=${page}`} legacyBehavior>
+                  <a
+                    className={`${styles.pageButton} ${page === currentPageState ? styles.activePage : ''}`}
+                  >
+                    {page}
+                  </a>
+                </Link>
               ))}
             {currentPageState < totalPagesState && (
-              <button
-                className={styles.pageButton}
-                onClick={() => isSearching ? handleSearch(currentPageState + 1) : handlePageChange(currentPageState + 1)}
-              >
-                {'>'}
-              </button>
+              <Link href={`/reviews?page=${currentPageState + 1}`} legacyBehavior>
+                <a className={styles.pageButton}>{'>'}</a>
+              </Link>
             )}
           </div>
         </main>

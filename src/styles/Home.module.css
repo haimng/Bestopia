@@ -177,10 +177,13 @@
 
 .pageButton {
   margin: 0 5px;
-  padding: 10px 15px;
+  padding: 8px 15px;
   border: 1px solid #ccc;
   background-color: white;
   cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
 }
 
 .pageButton:hover {
@@ -301,9 +304,5 @@
 
   .pagination {
     margin-top: 10px;
-  }
-
-  .pageButton {
-    padding: 5px 10px;
   }
 }
