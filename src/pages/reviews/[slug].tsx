@@ -296,13 +296,13 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                 </div>
                 <div className={styles.socialShare}>
                     <FacebookShareButton url={shareUrl}>
-                        <FacebookIcon size={32} round />
+                        <FacebookIcon size={50} round />
                     </FacebookShareButton>
                     <TwitterShareButton url={shareUrl} title={review.title}>
-                        <TwitterIcon size={32} round />
+                        <TwitterIcon size={50} round />
                     </TwitterShareButton>
                     <LinkedinShareButton url={shareUrl} title={review.title} summary={review.subtitle}>
-                        <LinkedinIcon size={32} round />
+                        <LinkedinIcon size={50} round />
                     </LinkedinShareButton>
                 </div>
                 <section className={styles.readMore}>
