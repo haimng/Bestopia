@@ -105,6 +105,7 @@ ${productDataText}`;
     });
     const [saveComparisonsError, setSaveComparisonsError] = useState('');
     const [isSavingComparisons, setIsSavingComparisons] = useState(false);
+    const [copyButtonText, setCopyButtonText] = useState('Copy');
 
     useEffect(() => {
         const adminStatus = isAdmin();
@@ -217,6 +218,15 @@ ${productDataText}`;
         } finally {
             setIsSavingComparisons(false);
         }
+    };
+
+    const handleCopyClick = () => {
+        navigator.clipboard.writeText(productComparisons).then(() => {
+            setCopyButtonText('Copied');
+            setTimeout(() => setCopyButtonText('Copy'), 3000);
+        }).catch(err => {
+            console.error('Failed to copy text: ', err);
+        });
     };
 
     return (
@@ -371,10 +381,10 @@ ${productDataText}`;
                         Product Comparisons:
                         <button
                             type="button"
-                            onClick={() => navigator.clipboard.writeText(productComparisons)}
+                            onClick={handleCopyClick}
                             className={styles.pasteButton}
                         >
-                            Copy
+                            {copyButtonText}
                         </button>
                         <button
                             type="button"
