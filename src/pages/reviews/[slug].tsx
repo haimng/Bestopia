@@ -143,6 +143,15 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
         }))
     };
 
+    const extractDomain = (url: string) => {
+      try {
+        const domain = new URL(url).hostname.replace('www.', '');
+        return domain.charAt(0).toUpperCase() + domain.slice(1);
+      } catch (error) {
+        return '';
+      }
+    };
+
     return (
         <Layout>
             <Head>
@@ -206,7 +215,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                                                     <button className={`${styles.buyButton} ${styles.smallButton}`}>See Price</button>
                                                 </a>
                                                 <div className={styles.amazonDisclosure}>
-                                                  <small>#ad: Amazon.com</small>
+                                                  <small>#ad: {extractDomain(product.product_page)}</small>
                                                 </div>
                                               </div>
                                             )}
@@ -280,7 +289,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
                               </a>
                             )}
                             <p className={styles.amazonDisclosure}>
-                              <small>#ad: Amazon.com</small>
+                              <small>#ad: {extractDomain(product.product_page)}</small>
                             </p>
                         </div>
                     ))}
