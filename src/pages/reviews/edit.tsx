@@ -7,7 +7,7 @@ import Layout from '../../components/Layout';
 import styles from '../../styles/NewReview.module.css';
 import { getReviewById, getProductsByReviewId, getProductComparisonsByProductIds } from '../../utils/db';
 import { isAdmin } from '../../utils/auth';
-import { apiPut, apiPost } from '../../utils/api';
+import { apiPut, apiPost, apiDelete } from '../../utils/api';
 
 interface Product {
     id: number;
@@ -229,6 +229,18 @@ ${productDataText}`;
         });
     };
 
+    const handleDeleteReview = async () => {
+        if (confirm('Are you sure you want to delete?')) {
+            try {
+                await apiDelete(`/reviews/${editableReview.id}`);
+                router.push(`/reviews/${editableReview.slug}`);
+            } catch (error) {
+                console.error('Error deleting review:', error);
+                setReviewError('An error occurred while deleting the review');
+            }
+        }
+    };
+
     return (
         <Layout>
             <Head>
@@ -422,6 +434,9 @@ ${productDataText}`;
                 <Link href="/reviews/new" legacyBehavior>
                     <a className={`${styles.borderButton}`}>New</a>
                 </Link>
+                <button className={`${styles.deleteButton}`} style={{ float: 'right' }} onClick={() => handleDeleteReview()}>
+                    Delete
+                </button>
             </div>
         </Layout>
     );

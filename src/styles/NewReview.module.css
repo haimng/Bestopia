@@ -111,6 +111,23 @@
     background-color: #005bb5;
 }
 
+.deleteButton {
+    border-radius: 4px;
+    border: 1px solid #000;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    margin-top: 20px;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.deleteButton:hover {
+    background-color: darkgray;
+}
+
 /* Media query for mobile devices */
 @media (max-width: 600px) {
     .container {

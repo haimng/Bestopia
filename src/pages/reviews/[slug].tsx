@@ -340,6 +340,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     }
     const review = await getReviewBySlug(slug);
+    if (!review) {
+        return {
+            notFound: true,
+        };
+    }
     const products = await getProductsByReviewId(review.id);
     const randomReviews = await getRandomReviews();
     const productComparisons = await getProductComparisonsByProductIds(products.map(product => product.id));
