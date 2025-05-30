@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { Review } from '../types';
 import { getTopReviews } from '../utils/db';
 import { DOMAIN } from '../constants';
@@ -81,14 +81,14 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
+export const getStaticProps: GetStaticProps = async (context) => {
   const reviews = await getTopReviews();
 
   return {
     props: {
       reviews: reviews || [],
     },
+    revalidate: 86400, // Revalidate every 24 hours
   };
 };
 

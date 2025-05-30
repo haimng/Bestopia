@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import styles from '../../styles/Reviews.module.css';
@@ -332,8 +332,16 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
     );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
+export const getStaticPaths: GetStaticPaths = async () => {
+    // You may want to fetch all slugs here for pre-rendering
+    // For now, fallback: 'blocking' to allow on-demand generation
+    return {
+        paths: [],
+        fallback: 'blocking',
+    };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
     const { slug } = context.params!;
     if (typeof slug !== 'string') {
         return {
@@ -391,6 +399,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             productComparisons: serializedProductComparisons,
             randomReviews: serializedRandomReviews,
         },
+        revalidate: 86400, // Revalidate every 24 hours
     };
 };
 

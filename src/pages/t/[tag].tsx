@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { getReviewsByTag } from '../../utils/db';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Home.module.css';
@@ -11,9 +11,16 @@ interface TagPageProps {
     reviews: { id: number; title: string; slug: string; cover_photo?: string; subtitle?: string; introduction?: string }[];
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
-    const tag = (context.query.tag as string)?.toLowerCase();
+export const getStaticPaths: GetStaticPaths = async () => {
+    // No tags are pre-rendered at build time; pages are generated on-demand
+    return {
+        paths: [],
+        fallback: 'blocking',
+    };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+    const tag = (context.params?.tag as string)?.toLowerCase();
 
     if (!tag) {
         return {
@@ -43,6 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             tag,
             reviews: serializedReviews,
         },
+        revalidate: 86400, // Revalidate every 24 hours
     };
 };
 
