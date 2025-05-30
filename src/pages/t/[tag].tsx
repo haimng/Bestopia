@@ -12,6 +12,7 @@ interface TagPageProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
     const tag = (context.query.tag as string)?.toLowerCase();
 
     if (!tag) {

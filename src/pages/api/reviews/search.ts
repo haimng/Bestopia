@@ -3,6 +3,7 @@ import { searchReviewsByKeyword } from '../../../utils/db';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
+        res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
         const { keyword, page = '1' } = req.query;
 
         if (!keyword || typeof keyword !== 'string') {

@@ -333,6 +333,7 @@ const ReviewPage: React.FC<ReviewPageProps> = ({ review, products, randomReviews
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
     const { slug } = context.params!;
     if (typeof slug !== 'string') {
         return {

@@ -4,6 +4,7 @@ import { DOMAIN } from '../../constants'; // Add this line
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'GET') {
+        res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
         const { freq } = req.query;
         const client = await pool.connect();
         try {
@@ -29,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     </url>
                 </urlset>`;
             }
-            else {              
+            else {                    
               const result = await client.query('SELECT slug FROM reviews ORDER BY created_at ASC LIMIT 1000');
               const slugs = result.rows.map((row: any) => row.slug);
               sitemap = `<?xml version="1.0" encoding="UTF-8"?>

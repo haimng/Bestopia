@@ -81,7 +81,8 @@ const Home: React.FC<HomeProps> = ({ reviews }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
   const reviews = await getTopReviews();
 
   return {

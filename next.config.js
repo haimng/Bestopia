@@ -8,4 +8,17 @@ module.exports = {
         };
         return config;
     },
+    async headers() {
+        return [
+            {
+                source: '/reviews/:path*',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'public, max-age=86400, s-maxage=86400, must-revalidate',
+                    },
+                ],
+            },
+        ];
+    },
 };

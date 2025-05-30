@@ -151,6 +151,7 @@ const ReviewsPage: React.FC<ReviewsPageProps> = ({ reviews, totalPages, currentP
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  context.res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, must-revalidate');
   const page = parseInt(context.query.page as string) || 1;
   const { reviews, totalPages } = await getPagedReviews(page, 20);
 
