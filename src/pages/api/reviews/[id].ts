@@ -30,6 +30,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const reviewResult = await client.query(updateReviewQuery, updateReviewValues);
 
             await client.query('COMMIT');
+            
+            await res.revalidate(`/reviews/${reviewResult.rows[0].slug}`);
             res.status(200).json(reviewResult.rows[0]);
         } catch (error: any) {
             await client.query('ROLLBACK');
