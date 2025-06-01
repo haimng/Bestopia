@@ -399,7 +399,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
             productComparisons: serializedProductComparisons,
             randomReviews: serializedRandomReviews,
         },
-        revalidate: 86400, // Revalidate every 24 hours
+        revalidate: 604800, // Revalidate every 1 week
     };
 };
 
