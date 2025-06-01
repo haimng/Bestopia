@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(500).json({ error: 'Internal server error', details: errorMessage });
         }
 
-        const { productIds, productComparisons } = req.body;
+        const { productIds, productComparisons, slug } = req.body;
 
         if (!productIds || !productComparisons) {
             return res.status(400).json({ error: 'Missing required fields: productIds or productComparisons' });
@@ -56,6 +56,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }            
 
             await client.query('COMMIT');
+
+            if (slug)  await res.revalidate(`/reviews/${slug}`);
             res.status(201).json({ message: 'Product comparisons saved successfully' });
         } catch (error: any) {
             await client.query('ROLLBACK');

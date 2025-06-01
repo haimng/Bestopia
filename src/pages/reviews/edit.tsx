@@ -210,6 +210,7 @@ ${productDataText}`;
             const result = await apiPost('/product_comparisons', {
                 productComparisons: comparisons,
                 productIds: editableProducts.map(product => product.id),
+                slug: editableReview.slug,
             });
             console.log('Product comparisons saved successfully:', result);
         } catch (error) {

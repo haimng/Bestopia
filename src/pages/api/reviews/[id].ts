@@ -41,7 +41,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             client.release();
         }
     } else if (req.method === 'DELETE') {
-        try {
+        try {            
+            const reviewResult = await client.query('SELECT slug FROM reviews WHERE id = $1', [id]);
+            if (reviewResult.rows.length === 0) {
+                return res.status(404).json({ error: 'Review not found' });
+            }
+            const slug = reviewResult.rows[0].slug;
+
             await client.query('BEGIN');
 
             const deleteProductComparisonsQuery = 'DELETE FROM product_comparisons WHERE product_id IN (SELECT id FROM products WHERE review_id = $1)';
@@ -57,6 +63,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await client.query(deleteReviewQuery, [id]);
 
             await client.query('COMMIT');
+
+            await res.revalidate(`/reviews/${slug}`);
             res.status(200).json({ message: 'Review and associated data deleted successfully' });
         } catch (error: any) {
             await client.query('ROLLBACK');
